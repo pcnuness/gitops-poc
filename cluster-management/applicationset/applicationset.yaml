@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: monitoring-applicationset
+  namespace: argocd
 spec:
   generators:
     - git:
@@ -13,13 +14,13 @@ spec:
           - path: cluster-management/monitoring/overlays/prod
   template:
     metadata:
-      name: 'app-monitoring'
+      name: '{{path.basename}}-monitoring'
     spec:
       project: monitoring
       source:
         repoURL: 'https://github.com/pcnuness/gitops-poc.git'
         targetRevision: main
-        path: '{{path}}'
+        path: 'cluster-management/monitoring/overlays/{{path.basename}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: monitoring
