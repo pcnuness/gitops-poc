@@ -21,8 +21,6 @@ spec:
         repoURL: 'https://github.com/pcnuness/gitops-poc.git'
         targetRevision: main
         path: 'cluster-management/monitoring/overlays/{{path.basename}}'
-        kustomize:
-          buildOptions: "--enable-helm"
       destination:
         server: https://kubernetes.default.svc
         namespace: monitoring
