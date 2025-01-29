@@ -13,7 +13,7 @@ spec:
           - path: cluster-management/monitoring/overlays/prod
   template:
     metadata:
-      name: '{{path.basename}}-monitoring'
+      name: 'app-monitoring'
     spec:
       project: monitoring
       source:
