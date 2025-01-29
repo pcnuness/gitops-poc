@@ -1,30 +1,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cluster-management
-  namespace: argocd
+  name: monitoring-applicationset
 spec:
   generators:
-    - list:
-        elements:
-          - name: prometheus
-            path: cluster-management/monitoring/prometheus
-          - name: grafana
-            path: cluster-management/monitoring/grafana
+    - git:
+        repoURL: 'https://gitlab.com/seu-repo.git'
+        revision: main
+        directories:
+          - path: cluster-management/monitoring/overlays/dev
+          - path: cluster-management/monitoring/overlays/stage
+          - path: cluster-management/monitoring/overlays/prod
   template:
     metadata:
-      name: '{{name}}'
+      name: '{{path.basename}}-monitoring'
     spec:
-      project: default
+      project: monitoring
       source:
-        repoURL: 'https://github.com/pcnuness/gitops-poc.git'
+        repoURL: 'https://gitlab.com/seu-repo.git'
         targetRevision: main
         path: '{{path}}'
-        kustomize:
-          namePrefix: '{{name}}-'
       destination:
-        server: 'https://kubernetes.default.svc'
-        namespace: 'monitoring'
+        server: https://kubernetes.default.svc
+        namespace: monitoring
       syncPolicy:
         automated:
           prune: true
