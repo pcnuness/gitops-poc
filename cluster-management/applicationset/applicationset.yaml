@@ -5,7 +5,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: 'https://gitlab.com/seu-repo.git'
+        repoURL: 'https://github.com/pcnuness/gitops-poc.git'
         revision: main
         directories:
           - path: cluster-management/monitoring/overlays/dev
@@ -17,7 +17,7 @@ spec:
     spec:
       project: monitoring
       source:
-        repoURL: 'https://gitlab.com/seu-repo.git'
+        repoURL: 'https://github.com/pcnuness/gitops-poc.git'
         targetRevision: main
         path: '{{path}}'
       destination:
