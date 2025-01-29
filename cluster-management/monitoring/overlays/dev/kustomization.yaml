@@ -12,3 +12,6 @@ helmCharts:
 resources:
   - ../../base/grafana
   - ../../base/prometheus
+
+patches:
+  - path: values.yaml
