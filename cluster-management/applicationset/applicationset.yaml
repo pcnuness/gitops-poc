@@ -9,9 +9,9 @@ spec:
         repoURL: 'https://github.com/pcnuness/gitops-poc.git'
         revision: main
         directories:
-          - path: cluster-management/monitoring/overlays/dev
+          - path: cluster-management/monitoring/overlays/develop
           - path: cluster-management/monitoring/overlays/stage
-          - path: cluster-management/monitoring/overlays/prod
+          - path: cluster-management/monitoring/overlays/production
   template:
     metadata:
       name: 'monitoring-{{path.basename}}'
