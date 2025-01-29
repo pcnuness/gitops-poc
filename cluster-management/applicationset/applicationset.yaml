@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-management
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: prometheus
+            path: cluster-management/monitoring/prometheus
+          - name: grafana
+            path: cluster-management/monitoring/grafana
+  template:
+    metadata:
+      name: '{{name}}'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/seu-usuario/cluster-management.git'
+        targetRevision: main
+        path: '{{path}}'
+        kustomize:
+          namePrefix: '{{name}}-'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: 'monitoring'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

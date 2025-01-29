@@ -1,0 +1,18 @@
+resources:
+  - ../../templates/namespace.yaml
+  - ../../templates/deployment.yaml
+  - ../../templates/service.yaml
+  - prometheus-configmap.yaml
+
+configMapGenerator:
+  - name: prometheus-config
+    files:
+      - prometheus.yml=prometheus-configmap.yaml
+
+vars:
+  - name: name
+    objref:
+      kind: ConfigMap
+      name: prometheus-config
+    fieldref:
+      fieldpath: metadata.name

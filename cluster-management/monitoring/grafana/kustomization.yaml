@@ -1,0 +1,18 @@
+resources:
+  - ../../templates/namespace.yaml
+  - ../../templates/deployment.yaml
+  - ../../templates/service.yaml
+  - grafana-dashboards-configmap.yaml
+
+configMapGenerator:
+  - name: grafana-dashboards
+    files:
+      - dashboard.yaml=grafana-dashboards-configmap.yaml
+
+vars:
+  - name: name
+    objref:
+      kind: ConfigMap
+      name: grafana-dashboards
+    fieldref:
+      fieldpath: metadata.name

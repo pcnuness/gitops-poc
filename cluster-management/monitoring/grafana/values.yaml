@@ -1,0 +1,18 @@
+name: grafana
+namespace: monitoring
+replicas: 1
+image: grafana/grafana:latest
+port: 3000
+serviceType: ClusterIP
+configFile: dashboard.yaml
+configData: |
+  apiVersion: 1
+  providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /etc/grafana/provisioning/dashboards
