@@ -17,7 +17,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: 'https://github.com/seu-usuario/cluster-management.git'
+        repoURL: 'https://github.com/pcnuness/gitops-poc.git'
         targetRevision: main
         path: '{{path}}'
         kustomize:
