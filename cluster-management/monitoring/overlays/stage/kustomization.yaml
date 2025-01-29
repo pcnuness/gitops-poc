@@ -7,5 +7,5 @@ resources:
   - ../../base/grafana
   - ../../base/prometheus
 
-patchesStrategicMerge:
-  - values.yaml
+patches:
+  - path: values.yaml
