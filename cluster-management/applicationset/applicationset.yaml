@@ -22,7 +22,7 @@ spec:
         path: 'cluster-management/monitoring/overlays/{{path.basename}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: monitoring
+        namespace: monitoring-{{path.basename}}
       syncPolicy:
         automated:
           prune: true
