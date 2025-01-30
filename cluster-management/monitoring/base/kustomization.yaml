@@ -5,5 +5,4 @@ kind: Kustomization
 namePrefix: "{{path.basename}}-"
 
 resources:
-  - namespace.yaml
   - grafana
