@@ -5,5 +5,5 @@ helmCharts:
   - name: grafana
     repo: https://grafana.github.io/helm-charts
     version: 6.18.0
-    namespace: monitoring
+    namespace: monitoring-{{path.basename}}
     valuesFile: values.yaml
