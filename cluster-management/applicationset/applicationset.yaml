@@ -7,14 +7,11 @@ spec:
   generators:
     - list:
         elements:
-          - name: production
-            cluster: https://kubernetes-cluster1.example.com
-            namespace: monitoring-production
           - name: develop
-            cluster: https://kubernetes-cluster2.example.com
+            cluster: https://kubernetes-cluster1.example.com
             namespace: monitoring-develop
           - name: sandbox
-            cluster: https://kubernetes-cluster3.example.com
+            cluster: https://kubernetes-cluster2.example.com
             namespace: monitoring-sandbox
   template:
     metadata:
