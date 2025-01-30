@@ -71,6 +71,9 @@ nodes:
 ```bash
 kubectl create namespace argocd
 kubectl -n argocd apply -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# Recuperar senha do Admin
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode
 ```
 
 #### Criar namespace do ingress-nginx e instalar os manifests:
