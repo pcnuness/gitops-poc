@@ -4,15 +4,21 @@ metadata:
   name: monitoring
   namespace: argocd
 spec:
-  description: "Projeto para gerenciar aplicações de monitoramento"
   sourceRepos:
-    - "https://github.com/pcnuness/gitops-poc.git"
+    - 'https://github.com/pcnuness/gitops-poc.git'  # Permitir repositório Git
   destinations:
-    - namespace: monitoring-*
-      server: https://kubernetes.default.svc
+    - namespace: 'monitoring-*'  # 🚀 Agora qualquer ambiente `monitoring-xyz` será permitido!
+      server: 'https://kubernetes.default.svc'
   clusterResourceWhitelist:
-    - group: "*"
-      kind: "*"
+    - group: '*'
+      kind: '*'
   namespaceResourceWhitelist:
-    - group: "*"
-      kind: "*"
+    - group: '*'
+      kind: '*'
+  roles:
+    - name: admin
+      policies:
+        - p, proj:monitoring, applications, sync, */*, allow
+        - p, proj:monitoring, applications, get, */*, allow
+      groups:
+        - monitoring-admins
