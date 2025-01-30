@@ -10,8 +10,7 @@ spec:
         revision: main
         directories:
           - path: cluster-management/monitoring/overlays/develop
-          - path: cluster-management/monitoring/overlays/stage
-          - path: cluster-management/monitoring/overlays/production
+          - path: cluster-management/monitoring/overlays/sandbox
   template:
     metadata:
       name: 'monitoring-{{path.basename}}'
