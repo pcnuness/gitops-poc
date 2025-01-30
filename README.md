@@ -152,3 +152,95 @@ Ou acessar no navegador:
 #### **Conclusão**
 
 Seguindo esse passo a passo, conseguimos configurar corretamente o Argo CD no Kind, permitindo o acesso via ingress-nginx nas portas 80 e 443. 🚀
+
+
+## Configuração do ArgoCD com ngrok (Modo Insecure)
+
+Este guia detalha os ajustes necessários para expor o ArgoCD remotamente via **ngrok**, evitando loops de redirecionamento HTTPS e garantindo um acesso funcional.
+
+### **1. Ajustar a Configuração do ArgoCD para HTTP**
+Por padrão, o ArgoCD pode estar configurado para redirecionar **HTTP para HTTPS**, o que causa o erro **ERR_TOO_MANY_REDIRECTS**.
+
+Para permitir conexões HTTP diretas:
+
+#### **Editar o ConfigMap do ArgoCD**
+Execute o seguinte comando:
+
+```bash
+kubectl edit cm argocd-cmd-params-cm -n argocd
+```
+
+No editor que abrir, encontre e adicione ou edite esta linha dentro da chave `data`:
+
+```yaml
+data:
+  server.insecure: "true"
+```
+
+#### **Reiniciar o ArgoCD Server**
+Após editar o ConfigMap, reinicie o deployment do ArgoCD para aplicar a configuração:
+
+```bash
+kubectl rollout restart deployment argocd-server -n argocd
+```
+
+---
+
+### **2. Configurar o Port Forwarding do ArgoCD**
+Agora, precisamos expor a porta correta do ArgoCD. Para isso, redirecione a porta **80** do serviço ArgoCD para a **8080** localmente:
+
+```bash
+kubectl port-forward svc/argocd-server -n argocd 8080:80
+```
+
+Isso permitirá que o tráfego HTTP seja acessado diretamente na porta **8080** da máquina local.
+
+---
+
+### **3. Expor o ArgoCD via ngrok**
+Agora que o serviço está exposto corretamente, podemos utilizar o `ngrok` para disponibilizar o ArgoCD remotamente.
+
+Execute o seguinte comando para criar um túnel HTTP **sem forçar TLS**:
+
+```bash
+ngrok http --bind-tls=false 8080
+```
+
+O **ngrok** gerará um endereço público, semelhante a:
+
+```
+Forwarding                    https://SEU_NGROK_URL -> http://localhost:8080
+```
+
+Agora, você pode acessar o ArgoCD via **https://SEU_NGROK_URL**.
+
+---
+
+### **4. Testar o Acesso ao ArgoCD**
+
+#### **Acesso pelo Navegador**
+Abra o navegador e acesse o endereço gerado pelo ngrok:
+
+```
+https://SEU_NGROK_URL
+```
+
+Se tudo estiver correto, a interface do ArgoCD será carregada.
+
+#### **Acesso via CLI**
+Para acessar o ArgoCD via CLI, utilize o seguinte comando:
+
+```bash
+argocd login SEU_NGROK_URL --username admin --password SENHA --insecure --grpc-web
+```
+
+Caso precise recuperar a senha do admin, execute:
+
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode
+```
+
+---
+
+### **Conclusão**
+Com esses ajustes, agora o **ArgoCD** pode ser acessado remotamente via **ngrok**, sem loops de redirecionamento HTTPS e sem erros de conexão. 🚀

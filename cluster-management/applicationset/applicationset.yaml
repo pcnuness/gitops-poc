@@ -11,7 +11,7 @@ spec:
             cluster: https://kubernetes-cluster1.example.com
             namespace: monitoring-develop
           - name: sandbox
-            cluster: https://kubernetes-cluster2.example.com
+            cluster: https://kubernetes-cluster.kind.local
             namespace: monitoring-sandbox
   template:
     metadata:
