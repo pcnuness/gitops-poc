@@ -203,7 +203,7 @@ Agora que o serviço está exposto corretamente, podemos utilizar o `ngrok` para
 Execute o seguinte comando para criar um túnel HTTP **sem forçar TLS**:
 
 ```bash
-ngrok http --bind-tls=false 8080
+ngrok http 8080
 ```
 
 O **ngrok** gerará um endereço público, semelhante a:
