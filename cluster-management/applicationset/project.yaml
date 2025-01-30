@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: monitoring
+  name: project-monitoring
   namespace: argocd
 spec:
   description: "Projeto para gerenciar aplicações de monitoramento"
