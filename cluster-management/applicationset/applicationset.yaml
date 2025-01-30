@@ -5,28 +5,33 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - git:
-        repoURL: 'https://github.com/pcnuness/gitops-poc.git'
-        revision: main
-        directories:
-          - path: cluster-management/monitoring/overlays/develop
-          - path: cluster-management/monitoring/overlays/sandbox
+    - list:
+        elements:
+          - name: production
+            cluster: https://kubernetes-cluster1.example.com
+            namespace: monitoring-production
+          - name: develop
+            cluster: https://kubernetes-cluster2.example.com
+            namespace: monitoring-develop
+          - name: sandbox
+            cluster: https://kubernetes-cluster3.example.com
+            namespace: monitoring-sandbox
   template:
     metadata:
-      name: 'monitoring-{{path.basename}}'
+      name: 'monitoring-{{name}}'
     spec:
       project: monitoring
       source:
         repoURL: 'https://github.com/pcnuness/gitops-poc.git'
         targetRevision: main
-        path: 'cluster-management/monitoring/overlays/{{path.basename}}'
+        path: 'cluster-management/monitoring/overlays/{{name}}'
       destination:
-        server: https://kubernetes.default.svc
-        namespace: monitoring-{{path.basename}}
+        server: '{{cluster}}'
+        namespace: '{{namespace}}'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
-          - PruneLast=true 
+          - PruneLast=true
