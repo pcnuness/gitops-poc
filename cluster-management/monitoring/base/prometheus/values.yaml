@@ -1,0 +1,9 @@
+service:
+  type: ClusterIP
+  port: 80
+
+server:
+  extraArgs:
+    - "--web.enable-admin-api"
+  persistentVolume:
+    enabled: false
