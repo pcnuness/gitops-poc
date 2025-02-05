@@ -15,7 +15,7 @@ spec:
             namespace: monitoring-sandbox
   template:
     metadata:
-      name: 'monitoring-{{name}}'
+      name: 'monitoring-addons-{{name}}'
     spec:
       project: monitoring
       source:
