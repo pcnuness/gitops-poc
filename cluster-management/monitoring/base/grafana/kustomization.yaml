@@ -6,3 +6,6 @@ helmCharts:
     repo: https://grafana.github.io/helm-charts
     version: 6.18.0
     valuesFile: values.yaml
+
+resources:
+  - ingress.yaml
