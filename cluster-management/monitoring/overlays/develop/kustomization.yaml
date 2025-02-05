@@ -14,7 +14,7 @@ patches:
     patch: |-
       - op: replace
         path: /spec/rules/0/host
-        value: 80-port-g4plfhcbbpxtyjfy.labs.kodekloud.com
+        value: grafana.develop.local
       - op: replace
         path: /spec/rules/0/http/paths/0/backend/service/name
         value: develop-observability-release-name-grafana
