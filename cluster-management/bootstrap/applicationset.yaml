@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: stack-monitoring
+  name: stack-observability
   namespace: argocd
 spec:
   generators:
