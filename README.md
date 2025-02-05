@@ -4,25 +4,32 @@
 Este repositório contém todos os recursos necessários para gerenciar o cluster Kubernetes e os serviços de suporte. Exemplo de estrutura:
 
 ```
+├── BACKLOG.md
 ├── README.md
 ├── cluster-management
-│   ├── applicationset
+│   ├── bootstrap
 │   │   ├── applicationset.yaml
 │   │   ├── kustomization.yaml
 │   │   └── project.yaml
 │   └── monitoring
 │       ├── base
 │       │   ├── grafana
+│       │   │   ├── ingress.yaml
 │       │   │   ├── kustomization.yaml
 │       │   │   └── values.yaml
-│       │   └── kustomization.yaml
+│       │   ├── kustomization.yaml
+│       │   └── prometheus
+│       │       ├── ingress.yaml
+│       │       ├── kustomization.yaml
+│       │       ├── service.yaml
+│       │       └── values.yaml
 │       └── overlays
-│           ├── develop
-│           │   ├── kustomization.yaml
-│           │   └── values.yaml
-│           └── sandbox
+│           └── develop
 │               ├── kustomization.yaml
 │               └── values.yaml
+└── kind-config.yaml
+
+9 directories, 16 files
 ```
 
 ```
