@@ -12,7 +12,7 @@ spec:
     - namespace: monitoring-*
       server: https://kubernetes.default.svc
     - namespace: monitoring-*
-      server: https://kubernetes.xpto.svc
+      server: https://kubernetes.default.svc
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
