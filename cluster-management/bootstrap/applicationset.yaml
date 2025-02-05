@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: stack-monitoring
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: develop
+            cluster: https://kubernetes.default.svc
+            namespace: monitoring-develop
+          - name: sandbox
+            cluster: https://kubernetes.xpto.svc
+            namespace: monitoring-sandbox
+  template:
+    metadata:
+      name: 'monitoring-{{name}}'
+    spec:
+      project: monitoring
+      source:
+        repoURL: 'https://github.com/pcnuness/gitops-poc.git'
+        targetRevision: main
+        path: 'cluster-management/monitoring/overlays/{{name}}'
+      destination:
+        server: '{{cluster}}'
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - PruneLast=true
