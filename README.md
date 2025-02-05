@@ -72,9 +72,18 @@ nodes:
 kubectl create namespace argocd
 kubectl -n argocd apply -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
+
+# Adicionar --enable-helm na Configuração do ArgoCD
+kubectl patch cm -n argocd argocd-cm --type merge -p '{"data": {"kustomize.buildOptions": "--enable-helm"}}'
+
+# Verifique se a alteração foi aplicada corretamente
+kubectl get cm -n argocd argocd-cm -o yaml | grep kustomize.buildOptions
+
 # Recuperar senha do Admin
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode
 ```
+
+
 
 #### Criar namespace do ingress-nginx e instalar os manifests:
 ```bash
