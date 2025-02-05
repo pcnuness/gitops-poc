@@ -5,3 +5,4 @@ namePrefix: "observability-"
 
 resources:
   - grafana
+  - prometheus
