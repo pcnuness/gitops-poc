@@ -10,9 +10,6 @@ spec:
           - name: develop
             cluster: https://kubernetes.default.svc
             namespace: monitoring-develop
-          - name: sandbox
-            cluster: https://kubernetes.default.svc
-            namespace: monitoring-sandbox
   template:
     metadata:
       name: 'monitoring-addons-{{name}}'
