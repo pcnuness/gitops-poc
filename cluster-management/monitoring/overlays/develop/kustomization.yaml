@@ -5,19 +5,19 @@ namespace: monitoring-develop
 namePrefix: develop-
 
 resources:
-  - ../../base/prometheus
+  - ../../base
 
 patches:
-  #- target:
-  #    kind: Ingress
-  #    name: grafana-ingress
-  #  patch: |-
-  #    - op: replace
-  #      path: /spec/rules/0/host
-  #      value: grafana.develop.local
-  #    - op: replace
-  #      path: /spec/rules/0/http/paths/0/backend/service/name
-  #      value: develop-observability-release-name-grafana
+  - target:
+      kind: Ingress
+      name: grafana-ingress
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: grafana.develop.local
+      - op: replace
+        path: /spec/rules/0/http/paths/0/backend/service/name
+        value: develop-observability-release-name-grafana
   - target:
       kind: Ingress
       name: prometheus-ingress
@@ -27,4 +27,4 @@ patches:
         value: prometheus.develop.local
       - op: replace
         path: /spec/rules/0/http/paths/0/backend/service/name
-        value: develop-observability-release-name-prometheus
+        value: develop-prometheus-service
