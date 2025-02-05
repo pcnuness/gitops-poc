@@ -3,6 +3,8 @@ kind: AppProject
 metadata:
   name: monitoring
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   sourceRepos:
     - 'https://github.com/pcnuness/gitops-poc.git'
