@@ -300,3 +300,8 @@ k get pods -n kube-system
 
  kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-grafana 3000:80
 ```
+
+
+
+# Referencias
+**Bootstrap Terraform**: https://github.com/gitops-bridge-dev/gitops-bridge-argocd-bootstrap-terraform.git
