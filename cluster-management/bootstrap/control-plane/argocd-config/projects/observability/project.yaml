@@ -6,24 +6,18 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  sourceRepos:
-    - 'https://github.com/pcnuness/gitops-poc.git'
-    - https://prometheus-community.github.io/helm-charts
+  description: Project for observability tools
   destinations:
-    - namespace: observability*
-      server: https://kubernetes.default.svc
-    - namespace: kube-prometheus-stack
-      server: https://kubernetes.default.svc
+  - namespace: kube-prometheus-stack
+    server: https://kubernetes.default.svc
+  - namespace: kube-system
+    server: https://kubernetes.default.svc
+  - namespace: '*'
+    server: https://kubernetes.default.svc
+  sourceRepos:
+  - https://prometheus-community.github.io/helm-charts
+  - https://github.com/pcnuness/gitops-poc
+  - '*'
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
-  namespaceResourceWhitelist:
-    - group: '*'
-      kind: '*'
-  roles:
-    - name: admin
-      policies:
-        - p, proj:observability, applications, sync, */*, allow
-        - p, proj:observability, applications, get, */*, allow
-      groups:
-        - observability-admins
+  - group: '*'
+    kind: '*'

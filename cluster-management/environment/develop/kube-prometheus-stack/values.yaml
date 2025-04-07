@@ -25,6 +25,17 @@ prometheus:
       limits:
         cpu: 200m  # Limite específico de CPU para Prometheus
         memory: 512Mi  # Limite específico de memória para Prometheus
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - prometheus.ops.local
+    paths:
+      - path: /
+        pathType: Prefix
+    tls:
+      - hosts:
+          - prometheus.ops.local
 
 # Configuração do Alertmanager
 alertmanager:
@@ -33,6 +44,17 @@ alertmanager:
       limits:
         cpu: 100m  # Limite específico de CPU para Alertmanager
         memory: 256Mi  # Limite específico de memória para Alertmanager
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - alertmanager.ops.local
+    paths:
+      - path: /
+        pathType: Prefix
+    tls:
+      - hosts:
+          - alertmanager.ops.local
 
 # Configurações de anotação e rótulo específicos para o ambiente de desenvolvimento
 # Estes rótulos ajudam a identificar e organizar as instâncias no cluster.
@@ -54,3 +76,20 @@ prometheusRule:
 # Comentários adicionais sobre a instalação:
 # - "upgrade --install": Assegura que a instalação será realizada, mesmo se a release não existir.
 # - Verifique as dependências e comunidade para a última versão do chart e práticas recomendadas.
+
+# Configuração do Grafana
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - grafana.ops.local
+    paths:
+      - path: /
+        pathType: Prefix
+    tls:
+      - hosts:
+          - grafana.ops.local
+  # Configurar usuário e senha para Grafana (opcional)
+  adminUser: admin
+  adminPassword: suaSenhaSegura
