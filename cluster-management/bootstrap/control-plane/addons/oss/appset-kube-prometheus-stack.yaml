@@ -35,7 +35,7 @@ spec:
                 addonChartVersion: 70.3.0
   template:
     metadata:
-      name: addon-{{name}}-{{values.addonChart}}
+      name: addon-{{values.addonChart}}-{{name}}
     spec:
       project: observability
       sources:
