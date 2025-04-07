@@ -1,0 +1,56 @@
+# Arquivo values.yaml para o Helm Chart do kube-prometheus-stack
+# Este arquivo é ajustado para ambientes de desenvolvimento.
+# Inclui configurações padrão do kube-prometheus-stack com ajustes para recursos limitados.
+
+# Configuração global
+global:
+  # Definindo o limite de recursos, típico para um ambiente de desenvolvimento
+  resources:
+    limits:
+      cpu: 100m  # Limite de CPU
+      memory: 256Mi  # Limite de memória
+    requests:
+      cpu: 50m  # Solicitação de CPU
+      memory: 128Mi  # Solicitação de memória
+
+# Configuração para o Prometheus Operator
+prometheusOperator:
+  createCustomResource: true  # Habilita CRDs customizadas necessarias para o operador
+  resources: {}  # Utiliza as configurações globais de recursos
+
+# Configuração do Prometheus
+prometheus:
+  prometheusSpec:
+    resources:
+      limits:
+        cpu: 200m  # Limite específico de CPU para Prometheus
+        memory: 512Mi  # Limite específico de memória para Prometheus
+
+# Configuração do Alertmanager
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      limits:
+        cpu: 100m  # Limite específico de CPU para Alertmanager
+        memory: 256Mi  # Limite específico de memória para Alertmanager
+
+# Configurações de anotação e rótulo específicos para o ambiente de desenvolvimento
+# Estes rótulos ajudam a identificar e organizar as instâncias no cluster.
+podLabels:
+  environment: development  # Rótulo para identificar o ambiente de desenvolvimento
+
+# Monitoramento e alertas básicos
+prometheusRule:
+  enabled: true  # Habilita regras de alertas padrão
+  additionalPrometheusRulesMap: {}  # Mapa para regras adicionais se necessário
+  
+# Instruções para aplicar o values.yaml no ambiente de desenvolvimento
+# Use o seguinte comando para aplicar este arquivo:
+#
+# helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --values values.yaml --namespace monitoring
+#
+# Certifique-se de que o namespace "monitoring" existe ou ajuste para o seu namespace preferido.
+
+# Comentários adicionais sobre a instalação:
+# - "upgrade --install": Assegura que a instalação será realizada, mesmo se a release não existir.
+# - Verifique as dependências e comunidade para a última versão do chart e práticas recomendadas.
