@@ -48,7 +48,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 name: ${cluster_name}
 networking:
-  apiServerAddress: "127.0.0.1"
+  apiServerAddress: "0.0.0.0"
   apiServerPort: ${api_port}
 nodes:
 - role: control-plane
@@ -162,12 +162,22 @@ echo "ArgoCD initial admin password:"
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" --context kind-argocd-main | base64 -d
 echo
 echo "Use 'admin' as the username to log in to ArgoCD"
+echo
+echo "ArgoCD CLI initial login:"
+argocd login argocd.local \
+  --insecure \
+  --username admin \
+  --password $(kubectl get secret \
+  -n argocd \
+  argocd-initial-admin-secret \
+  -o jsonpath="{.data.password}" --context kind-argocd-main |
+  base64 -d)
 
 echo
 echo "You can now use your clusters with:"
-echo "kubectl cluster-info --context kind-argocd-main"
+echo "kubectl config use-context kind-argocd-main"
 echo
 for i in $(seq 1 $N)
 do
-    echo "kubectl cluster-info --context kind-worker-project-$i"
+    echo "kubectl config use-context kind-worker-project-$i"
 done

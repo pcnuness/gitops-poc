@@ -5,7 +5,7 @@ metadata:
   name: addons-kube-prometheus-stack
 spec:
   syncPolicy:
-    preserveResourcesOnDeletion: false
+    preserveResourcesOnDeletion: true
   generators:
     - merge:
         mergeKeys: [server]

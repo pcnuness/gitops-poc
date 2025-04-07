@@ -1,8 +1,8 @@
 ## 📌 Próximos Passos (Sugestões)
 
-### 🔹 Criar a estrutura para mais ambientes (sandbox, stage, prod)
+### 🔹 Criar a estrutura para utilizando Helm Charts
 - Criar os arquivos de configuração:
-  - `overlays/sandbox/kustomization.yaml`
+  - `charts/sandbox/kustomization.yaml`
   - `overlays/stage/kustomization.yaml`
   - `overlays/prod/kustomization.yaml`
 - Cada um deve apontar para seus respectivos namespaces:
@@ -25,3 +25,16 @@
   - `sandbox`
   - `stage`
   - `prod`
+
+argocd cluster add kind-worker-project-1 --label environment=develop \     
+  --label cluster-name=worker-project-1 \
+  --label cluster_version=1.31
+
+argocd login argocd.local \
+  --insecure \
+  --username admin \
+  --password $(kubectl get secret \
+  -n argocd \
+  argocd-initial-admin-secret \
+  -o jsonpath="{.data.password}" |
+  base64 -d)
