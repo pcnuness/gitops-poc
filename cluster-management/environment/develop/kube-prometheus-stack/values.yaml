@@ -80,10 +80,10 @@ grafana:
       nginx.ingress.kubernetes.io/auth-type: basic
       nginx.ingress.kubernetes.io/auth-secret: basic-auth
       nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
-    hosts:
-      - grafana.example.com
+      kubernetes.io/ingress.class: nginx
+    labels: {}
     paths:
       - /
-  # Configurar usuário e senha para Grafana (opcional)
-  adminUser: admin
-  adminPassword: suaSenhaSegura
+    pathType: Prefix
+    hosts:
+      - grafana.example.com
