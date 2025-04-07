@@ -286,3 +286,16 @@ kubectl annotate secret -n argocd cluster-kubernetes.default.svc-3396314289 addo
 ```
 kubectl label secret cluster-kubernetes.default.svc-3396314289 -n argocd enable_kube_prometheus_stack=true --overwrite
 ```
+
+
+## The Magic
+
+### Stack Observability
+```
+k get pods -n kube-system
+```
+### Forwarding Observabiliy
+```
+ kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-grafana 3000:80
+ prom-operator
+```
