@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: monitoring
+  name: observability
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,9 +9,7 @@ spec:
   sourceRepos:
     - 'https://github.com/pcnuness/gitops-poc.git'
   destinations:
-    - namespace: monitoring-*
-      server: https://kubernetes.default.svc
-    - namespace: monitoring-*
+    - namespace: observability*
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
     - group: '*'
@@ -22,7 +20,7 @@ spec:
   roles:
     - name: admin
       policies:
-        - p, proj:monitoring, applications, sync, */*, allow
-        - p, proj:monitoring, applications, get, */*, allow
+        - p, proj:observability, applications, sync, */*, allow
+        - p, proj:observability, applications, get, */*, allow
       groups:
-        - monitoring-admins
+        - observability-admins

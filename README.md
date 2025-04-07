@@ -1,36 +1,50 @@
 # gitops-poc
 
 ## 1. Cluster Management
+
+Análise Detalhada
+1. bootstrap/workloads
+Esta abordagem é excelente para manter a consistência entre clusters e facilitar a implantação em escala.
+
+Sugestões:
+
+Considere criar subdirerórios para categorizar workloads (ex: monitoring, security, networking, finops).
+Inclua um README.md explicando o propósito e como adicionar novos workloads.
+
+2. bootstrap/control-plane
+A separação do plano de controle é uma prática recomendada, especialmente para ambientes de produção de grande escala.
+
+Sugestões:
+
+Considere criar subdirerórios para categorizar serviços especificos para rodar no cluster cerntral (ex: argocd-config).
+Adicione documentação clara sobre os pré-requisitos para o cluster de controle.
+Inclua scripts de validação para garantir que o cluster atenda aos requisitos antes da implantação.
+
+1. charts
+Centralizar charts personalizados é uma ótima prática para reutilização e manutenção.
+
+Sugestões:
+
+Implemente versionamento semântico para seus charts.
+Considere adicionar testes automatizados para validar os charts.
+
+4. environments
+Esta estrutura permite uma clara separação de configurações por ambiente, facilitando a gestão do ciclo de vida da aplicação.
+
+Sugestões:
+
+Implemente um sistema de herança de configurações (ex: base -> dev -> staging -> prod).
+Utilize ferramentas como Kustomize para gerenciar diferenças entre ambientes.
+
+5. clusters
+Excelente para gerenciar configurações específicas de cluster, permitindo customizações finas.
+
+Sugestões:
+
+Implemente um sistema de rotulagem para clusters (ex: região, tipo de workload, etc.).
+
 Este repositório contém todos os recursos necessários para gerenciar o cluster Kubernetes e os serviços de suporte. Exemplo de estrutura:
 
-```
-├── BACKLOG.md
-├── README.md
-├── cluster-management
-│   ├── bootstrap
-│   │   ├── applicationset.yaml
-│   │   ├── kustomization.yaml
-│   │   └── project.yaml
-│   └── monitoring
-│       ├── base
-│       │   ├── grafana
-│       │   │   ├── ingress.yaml
-│       │   │   ├── kustomization.yaml
-│       │   │   └── values.yaml
-│       │   ├── kustomization.yaml
-│       │   └── prometheus
-│       │       ├── ingress.yaml
-│       │       ├── kustomization.yaml
-│       │       ├── service.yaml
-│       │       └── values.yaml
-│       └── overlays
-│           └── develop
-│               ├── kustomization.yaml
-│               └── values.yaml
-└── kind-config.yaml
-
-9 directories, 16 files
-```
 
 ```
 kind create cluster --name cpe-operation --config kind-config.yaml
@@ -89,8 +103,6 @@ kubectl get cm -n argocd argocd-cm -o yaml | grep kustomize.buildOptions
 # Recuperar senha do Admin
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode
 ```
-
-
 
 #### Criar namespace do ingress-nginx e instalar os manifests:
 ```bash
