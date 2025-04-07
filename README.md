@@ -296,6 +296,7 @@ k get pods -n kube-system
 ```
 ### Forwarding Observabiliy
 ```
+ kubectl get secret -n kube-prometheus-stack kube-prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
  kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-grafana 3000:80
- prom-operator
 ```
