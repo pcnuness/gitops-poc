@@ -11,7 +11,7 @@ global:
       memory: 256Mi  # Limite de memória
     requests:
       cpu: 50m  # Solicitação de CPU
-      memory: 128Mi  # Solicitação de memória
+      memory: 128Mi  # Solicitação de memória#
   namespaceOverride: observability
 
 # Configuração para o Prometheus Operator
