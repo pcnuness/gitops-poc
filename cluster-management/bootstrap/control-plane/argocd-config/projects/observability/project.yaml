@@ -8,8 +8,11 @@ metadata:
 spec:
   sourceRepos:
     - 'https://github.com/pcnuness/gitops-poc.git'
+    - https://prometheus-community.github.io/helm-charts
   destinations:
     - namespace: observability*
+      server: https://kubernetes.default.svc
+    - namespace: kube-prometheus-stack
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
     - group: '*'
