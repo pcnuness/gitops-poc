@@ -1,0 +1,147 @@
+Arquitetura de Multiclusters com GitOps
+
+### Descrição Geral
+
+Esta proposta detalha uma **arquitetura multicluster** que adota GitOps utilizando o ArgoCD em um Hub Cluster para centralização das operações. 
+
+Os Hosting Clusters são configurados para integração automática com o cluster principal (Hub), possibilitando implantação e sincronização contínuas de aplicativos para gerenciamento eficaz dos clusters.
+
+1. Objetivos:
+   - Centralizar operações de GitOps no Hub Cluster com ArgoCD.
+   - Provisionar workloads para clientes usando um repositório base que inclui ArgoCD, Ingress-NGINX, AWS Addons, etc.
+   - Garantir um ArgoCD de Produção por cliente, a ser instalado inicialmente nos Hosting Clusters.
+
+### 2. Desenho Arquitetural Detalhado
+
+#### Componentes Principais
+
+- **Cluster1 (Hub Cluster)**
+  - **Funções:**
+    - Armazenar e gerenciar o ArgoCD como ponto central.
+    - Manter a configuração centralizada dos Object Stores, ConfigMaps, e Secrets.
+    - Gerenciar Hosting Clusters operando sobre arquivos YAML versionados no Git.
+
+- **Hosting Clusters (Cluster2, Cluster3)**
+  - **Funções:**
+    - Operação sob monitoramento do Hub Cluster.
+    - Execução de ApplicationSets do ArgoCD para a instalação de componentes essenciais.
+    - Incluem:
+      - **Kube-apiserver**: Gerenciamento dos componentes do Kubernetes.
+   
+#### Comunicação entre Clusters
+
+- **Mecanismo:** Chamadas REST ao Kube-apiserver habilitadas para sincronização de recursos com base em políticas YAML.
+
+### 3. Solução Técnica com GitOps no ArgoCD
+
+#### Instalação ArgoCD
+
+- **Cluster Hub:** 
+  - Instalação inicial do ArgoCD para gerenciamento centralizado.
+- **Hosting Clusters:**
+  - A instalação deve ser orquestrada pelo ArgoCD do Cluster Hub.
+
+```yaml
+├── bootstrap
+│   └── control-plane
+│       ├── addons
+│       │   ├── aws
+│       │   │   └── appset-fluentbit-cloudwatch.yaml
+│       │   ├── oss
+│       │   │   ├── appset-argocd.yaml
+│       │   │   ├── appset-crossplane.yaml
+│       │   │   ├── appset-kube-prometheus-stack.yaml
+│       │   │   └── appset-backstage.yaml
+│       └── argocd-config
+│           └── projects
+│               ├── argocd
+│               ├── observability
+│               ├── security
+│               └── networking
+├── environment
+│   ├── develop
+│   └── staging
+├── clusters
+│   ├── eks-develop-clientA-services
+│   │   ├── argocd
+│   │   │   ├── values.yaml
+│   │   ├── crossplane
+│   │   │   ├── values.yaml
+│   │   ├── kube-prometheus-stack
+│   │   │   ├── values.yaml
+│   │   └── backstage
+│   │       ├── values.yaml
+│   ├── eks-develop-clientB-services
+│   └── eks-develop-clientXPTO-services
+├── scripts
+├── docs
+```
+
+#### Configuração do ApplicationSet
+
+- Exemplo de configuração do `appset-argocd.yaml` para gerenciar ambientes, utilizando templates YAML para sincronização contínua e automatizada:
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: addons-argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - merge:
+        mergeKeys: [server]
+        generators:
+          - clusters:
+              values:
+                addonChart: argo-cd
+                addonChartVersion: 6.6.0
+                addonChartRepositoryNamespace: argocd
+                addonChartRepository: https://argoproj.github.io/argo-helm
+              selector:
+                matchExpressions:
+                  - key: enable_argocd
+                    operator: In
+                    values: ['true']
+          - clusters:
+              selector:
+                matchLabels:
+                  environment: staging
+              values:
+                addonChartVersion: 6.6.0
+          - clusters:
+              selector:
+                matchLabels:
+                  environment: prod
+              values:
+                addonChartVersion: 6.6.0
+  template:
+    metadata:
+      name: addon-{{values.addonChart}}-{{name}}
+    spec:
+      project: default
+      sources:
+        - repoURL: '{{metadata.annotations.addons_repo_url}}'
+          targetRevision: '{{metadata.annotations.addons_repo_revision}}'
+          ref: values
+        - chart: '{{values.addonChart}}'
+          repoURL: '{{values.addonChartRepository}}'
+          targetRevision: '{{values.addonChartVersion}}'
+          helm:
+            releaseName: '{{values.addonChart}}'
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - $values/environments/default/addons/{{values.addonChart}}/values.yaml
+              - $values/environments/{{metadata.labels.environment}}/addons/{{values.addonChart}}/values.yaml
+              - $values/clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
+      destination:
+        namespace: '{{values.addonChartRepositoryNamespace}}'
+        name: '{{name}}'
+      syncPolicy:
+        automated:
+          prune: false
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+```
