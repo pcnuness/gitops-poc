@@ -274,10 +274,15 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 Com esses ajustes, agora o **ArgoCD** pode ser acessado remotamente via **ngrok**, sem loops de redirecionamento HTTPS e sem erros de conexão. 🚀
 
 
-
 ## Nova Stack
 
 ### adicionar annotate no cluster
 ```
 kubectl annotate secret -n argocd cluster-kubernetes.default.svc-3396314289 addons_repo_url=https://github.com/pcnuness/gitops-poc addons_repo_revision=develop --overwrite
+```
+
+### Adicionando Label no cluster
+
+```
+kubectl label secret cluster-kubernetes.default.svc-3396314289 -n argocd enable_kube_prometheus_stack=true --overwrite
 ```
