@@ -46,35 +46,34 @@ Os Hosting Clusters são configurados para integração automática com o cluste
 │   └── control-plane
 │       ├── addons
 │       │   ├── aws
-│       │   │   └── appset-fluentbit-cloudwatch.yaml
-│       │   ├── oss
-│       │   │   ├── appset-argocd.yaml
-│       │   │   ├── appset-crossplane.yaml
-│       │   │   ├── appset-kube-prometheus-stack.yaml
-│       │   │   └── appset-backstage.yaml
-│       └── argocd-config
-│           └── projects
-│               ├── argocd
-│               ├── observability
-│               ├── security
-│               └── networking
-├── environment
-│   ├── develop
-│   └── staging
+│       │   │   └── appset-fluentbit.yaml
+│       │   └── oss
+│       │       ├── appset-kube-prometheus-stack.yaml
+│       │       └── appset-ingress-nginx.yaml
+├── charts
+│   └── resources
+│       ├── Chart.yaml
+│       ├── templates
+│       │   └── resources.yaml
+│       └── values.yaml
 ├── clusters
-│   ├── eks-develop-clientA-services
-│   │   ├── argocd
-│   │   │   ├── values.yaml
-│   │   ├── crossplane
-│   │   │   ├── values.yaml
-│   │   ├── kube-prometheus-stack
-│   │   │   ├── values.yaml
-│   │   └── backstage
-│   │       ├── values.yaml
-│   ├── eks-develop-clientB-services
-│   └── eks-develop-clientXPTO-services
-├── scripts
-├── docs
+│   └── cpe-operation
+│       └── addons
+│           ├── ingress-nginx
+|           |   └── values.yaml
+│           └── kube-prometheus-stack
+|           |   └── values.yaml
+├── environment
+│   └── develop
+│       ├── ingress-nginx
+|       |   └── values.yaml
+│       └── kube-prometheus-stack
+│           └── values.yaml
+└── scripts
+    ├── create_new_cluster.sh
+    └── validate_manifests.sh
+
+21 directories, 11 files
 ```
 
 #### Configuração do ApplicationSet
@@ -85,7 +84,7 @@ Os Hosting Clusters são configurados para integração automática com o cluste
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-argocd
+  name: addons-ingress-nginx
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
@@ -95,13 +94,13 @@ spec:
         generators:
           - clusters:
               values:
-                addonChart: argo-cd
-                addonChartVersion: 6.6.0
-                addonChartRepositoryNamespace: argocd
-                addonChartRepository: https://argoproj.github.io/argo-helm
+                addonChart: ingress-nginx
+                addonChartVersion: 4.9.1
+                addonChartRepositoryNamespace: ingress-nginx
+                addonChartRepository: https://kubernetes.github.io/ingress-nginx
               selector:
                 matchExpressions:
-                  - key: enable_argocd
+                  - key: enable_ingress_nginx
                     operator: In
                     values: ['true']
           - clusters:
@@ -109,13 +108,13 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 6.6.0
+                addonChartVersion: 4.9.1
           - clusters:
               selector:
                 matchLabels:
                   environment: prod
               values:
-                addonChartVersion: 6.6.0
+                addonChartVersion: 4.9.1
   template:
     metadata:
       name: addon-{{values.addonChart}}-{{name}}
@@ -145,3 +144,16 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true
 ```
+
+
+{values}
+---
+controller:
+  kind: Deployment
+  allowSnippetAnnotations: true
+  service:
+    internal:
+      enable: true
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
+{/values}
