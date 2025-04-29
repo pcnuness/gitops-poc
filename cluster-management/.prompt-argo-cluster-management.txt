@@ -1,0 +1,37 @@
+
+
+Arvore da minha estrutura de arquivos
+
+├── bootstrap
+│   └── control-plane
+│       ├── addons
+│       │   ├── aws
+│       │   │   └── appset-fluentbit.yaml
+│       │   └── oss
+│       │       ├── appset-kube-prometheus-stack.yaml
+│       │       └── appset-metrics-server.yaml
+│       └── argocd-config
+│           └── projects
+│               └── observability
+│                   ├── kustomization.yaml
+│                   └── project.yaml
+├── charts
+│   └── resources
+│       ├── Chart.yaml
+│       ├── templates
+│       │   └── resources.yaml
+│       └── values.yaml
+├── clusters
+│   └── cpe-operation
+│       └── addons
+│           ├── crossplane
+│           └── kube-prometheus-stack
+├── environment
+│   └── develop
+│       └── kube-prometheus-stack
+│           └── values.yaml
+└── scripts
+    ├── create_new_cluster.sh
+    └── validate_manifests.sh
+
+21 directories, 11 files

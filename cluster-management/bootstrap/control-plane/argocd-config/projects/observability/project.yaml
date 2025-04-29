@@ -8,12 +8,8 @@ metadata:
 spec:
   description: Project for observability tools
   destinations:
-  - namespace: kube-prometheus-stack
-    server: https://kubernetes.default.svc
-  - namespace: kube-system
-    server: https://kubernetes.default.svc
   - namespace: '*'
-    server: https://kubernetes.default.svc
+    server: '*'
   sourceRepos:
   - https://prometheus-community.github.io/helm-charts
   - https://github.com/pcnuness/gitops-poc

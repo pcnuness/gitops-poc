@@ -1,14 +1,8 @@
 ## 📌 Próximos Passos (Sugestões)
 
 ### 🔹 Criar a estrutura para utilizando Helm Charts
-- Criar os arquivos de configuração:
-  - `charts/sandbox/kustomization.yaml`
-  - `overlays/stage/kustomization.yaml`
-  - `overlays/prod/kustomization.yaml`
-- Cada um deve apontar para seus respectivos namespaces:
-  - `monitoring-sandbox`
-  - `monitoring-stage`
-  - `monitoring-prod`
+- Criar os arquivos de configuração dos resources:
+  - `charts/base-resources/`
 
 ### 🔹 Adicionar Prometheus AlertManager para alertas
 - Ativar no `values.yaml` a configuração do **AlertManager**.
@@ -17,24 +11,17 @@
 ### 🔹 Configurar Grafana Dashboards via Helm
 - Criar **ConfigMaps** para provisionamento automático de dashboards customizados.
 
-### 🔹 Habilitar TLS no Ingress
-- Utilizar **cert-manager** para provisionamento automático de certificados **TLS**.
+### 🔹 Criar pipeline para Habilitar Cluster In ArgoCD-Management
 
-### 🔹 Configurar ArgoCD ApplicationSet para todos os ambientes
-- Atualizar **ApplicationSet** para incluir:
-  - `sandbox`
-  - `stage`
-  - `prod`
+```
+argocd cluster add arn:aws:eks:us-east-1:590184067017:cluster/tah-demo-cluster --label environment=develop \     
+  --label name=tah-demo-cluster \
+  --label enable_kube_prometheus_stack=true
+```
 
-argocd cluster add kind-worker-project-1 --label environment=develop \     
-  --label cluster-name=worker-project-1 \
-  --label cluster_version=1.31
+# Commands
 
-argocd login argocd.local \
-  --insecure \
-  --username admin \
-  --password $(kubectl get secret \
-  -n argocd \
-  argocd-initial-admin-secret \
-  -o jsonpath="{.data.password}" |
-  base64 -d)
+export AWS_ACCESS_KEY_ID="AKIA"          
+export AWS_SECRET_ACCESS_KEY="1HP"
+
+kubectl config use-context kind-argocd-main

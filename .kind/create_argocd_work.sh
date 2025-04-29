@@ -48,7 +48,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 name: ${cluster_name}
 networking:
-  apiServerAddress: "0.0.0.0"
+  apiServerAddress: "127.0.0.1"
   apiServerPort: ${api_port}
 nodes:
 - role: control-plane

@@ -136,7 +136,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 spec:
   rules:
-  - host: argocd.local
+  - host: 80-port-jl72qzsvkmreurdg.labs.kodekloud.com
     http:
       paths:
       - path: /
@@ -148,7 +148,7 @@ spec:
               name: https
   tls:
   - hosts:
-    - argocd.local
+    - 80-port-jl72qzsvkmreurdg.labs.kodekloud.com
 EOF
 ```
 
@@ -292,7 +292,7 @@ kubectl label secret cluster-kubernetes.default.svc-3396314289 -n argocd enable_
 
 ### Stack Observability
 ```
-k get pods -n kube-system
+k get pods -n kube-prometheus-stack
 ```
 ### Forwarding Observabiliy
 ```
@@ -300,7 +300,6 @@ k get pods -n kube-system
 
  kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-grafana 3000:80
 ```
-
 
 
 # Referencias
