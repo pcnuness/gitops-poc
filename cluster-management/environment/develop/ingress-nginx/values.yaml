@@ -1,0 +1,9 @@
+---
+controller:
+  kind: Deployment
+  allowSnippetAnnotations: true
+  service:
+    internal:
+      enable: true
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
