@@ -8,32 +8,64 @@ global:
       cpu: 50m
       memory: 128Mi
 
-# Ingress do Prometheus (note o bloco 'server.ingress', conforme template oficial)
+## Prometheus
 prometheus:
-  # ESTE É O SUBCHART 'prometheus', não o chart-root
   server:
     ingress:
       enabled: true
-      # Se sua versão de Kubernetes suporta ingressClassName diretamente:
+      ingressClassName: alb
       annotations:
-        kubernetes.io/ingress.class: nginx
+        kubernetes.io/ingress.class: alb
+        alb.ingress.kubernetes.io/scheme: internal
       hosts:
         - prometheus.ops.905418282044.realhandsonlabs.net
       paths:
         - /
+      pathType: Prefix
+      tls:
+        - hosts:
+            - prometheus.ops.905418282044.realhandsonlabs.net
+          secretName: prometheus-tls
     resources:
       limits:
         cpu: 200m
         memory: 512Mi
 
-# Ingress do Grafana
+## Grafana
 grafana:
-  # username is 'admin'
-  adminPassword: prom-operator
   ingress:
     enabled: true
+    ingressClassName: alb
     annotations:
-      kubernetes.io/ingress.class: nginx
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/scheme: internal
     hosts:
       - grafana.ops.905418282044.realhandsonlabs.net
-    path: "/"
+    paths:
+      - /
+    pathType: Prefix
+    tls:
+      - hosts:
+          - grafana.ops.905418282044.realhandsonlabs.net
+        secretName: grafana-tls
+  env:
+    GF_SERVER_ROOT_URL: https://grafana.ops.905418282044.realhandsonlabs.net
+    GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+
+## (Opcional) Alertmanager
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/scheme: internal
+    hosts:
+      - alertmanager.ops.905418282044.realhandsonlabs.net
+    paths:
+      - /
+    pathType: Prefix
+    tls:
+      - hosts:
+          - alertmanager.ops.905418282044.realhandsonlabs.net
+        secretName: alertmanager-tls
