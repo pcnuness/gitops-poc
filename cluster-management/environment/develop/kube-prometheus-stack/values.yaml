@@ -29,33 +29,39 @@ prometheusRule:
   enabled: true  # Habilita regras de alertas padrão
   additionalPrometheusRulesMap: {}  # Mapa para regras adicionais se necessário
 
-# Configuração do Prometheus
-prometheus:
-  prometheusSpec:
-    resources:
-      limits:
-        cpu: 200m
-        memory: 512Mi
+grafana:
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: nginx  # Classe de Ingress NGINX
     annotations:
-      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
-      - prometheus.905418282044.realhandsonlabs.net
+      - grafana.ops.905418282044.realhandsonlabs.net
     paths:
       - /
     pathType: Prefix
 
-# Configuração do Grafana
-grafana:
+prometheus:
+  prometheusSpec:
+    ingress:
+      enabled: true
+      ingressClassName: nginx  # Classe de Ingress NGINX
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /
+      hosts:
+        - prometheus.ops.905418282044.realhandsonlabs.net
+      paths:
+        - /
+      pathType: Prefix
+
+alertmanager:
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: nginx  # Classe de Ingress NGINX
     annotations:
-      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    hosts:
+      - alertmanager.ops.905418282044.realhandsonlabs.net
     paths:
       - /
     pathType: Prefix
-    hosts:
-      - grafana.905418282044.realhandsonlabs.net
