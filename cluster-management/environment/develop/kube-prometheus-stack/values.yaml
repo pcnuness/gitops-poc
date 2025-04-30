@@ -38,7 +38,11 @@ prometheus:
         memory: 512Mi  # Limite específico de memória para Prometheus
   ingress:
     enabled: true
-    ingressClassName: alb
+    ingressClassName: nginx
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     hosts:
       - prometheus.ops.905418282044.realhandsonlabs.net
     paths:
@@ -48,7 +52,11 @@ prometheus:
 grafana:
   ingress:
     enabled: true
-    ingressClassName: alb
+    ingressClassName: nginx
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     paths:
       - /
     pathType: Prefix
