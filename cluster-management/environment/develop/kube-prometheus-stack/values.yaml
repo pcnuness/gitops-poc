@@ -29,13 +29,6 @@ prometheusRule:
   enabled: true  # Habilita regras de alertas padrão
   additionalPrometheusRulesMap: {}  # Mapa para regras adicionais se necessário
 
-secrets:
-  - name: basic-auth
-    namespace: monitoring
-    type: Opaque
-    data:
-      auth: cHJvbS1zdGFjaw==
-
 # Configuração do Prometheus
 prometheus:
   prometheusSpec:
@@ -45,7 +38,7 @@ prometheus:
         memory: 512Mi  # Limite específico de memória para Prometheus
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: alb
     hosts:
       - prometheus.ops.905418282044.realhandsonlabs.net
     paths:
@@ -55,7 +48,7 @@ prometheus:
 grafana:
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: alb
     paths:
       - /
     pathType: Prefix
