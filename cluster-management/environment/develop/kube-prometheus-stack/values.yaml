@@ -34,29 +34,34 @@ prometheus:
   prometheusSpec:
     resources:
       limits:
-        cpu: 200m  # Limite específico de CPU para Prometheus
-        memory: 512Mi  # Limite específico de memória para Prometheus
+        cpu: 200m
+        memory: 512Mi
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: alb
     annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: instance
+      alb.ingress.kubernetes.io/subnets: subnet-0687ad9e5d27708e8, subnet-097e8629e5a2d2e91, subnet-0db6a48503e1f7a92
+      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP": 80, "HTTPS": 443 }]'
+      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:905418282044:certificate/695da736-395c-44a0-a2fb-8cb60a66a2e0
     hosts:
       - prometheus.ops.905418282044.realhandsonlabs.net
     paths:
       - /
+    pathType: Prefix
 
 # Configuração do Grafana
 grafana:
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: alb
     annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: instance
+      alb.ingress.kubernetes.io/subnets: subnet-0687ad9e5d27708e8, subnet-097e8629e5a2d2e91, subnet-0db6a48503e1f7a92
+      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP": 80, "HTTPS": 443 }]'
+      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:905418282044:certificate/695da736-395c-44a0-a2fb-8cb60a66a2e0
     paths:
       - /
     pathType: Prefix
