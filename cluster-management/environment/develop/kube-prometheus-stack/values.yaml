@@ -1,67 +1,56 @@
-# Arquivo values.yaml para o Helm Chart do kube-prometheus-stack
-# Este arquivo é ajustado para ambientes de desenvolvimento.
-# Inclui configurações padrão do kube-prometheus-stack com ajustes para recursos limitados.
-
 # Configuração global
 global:
   # Definindo o limite de recursos, típico para um ambiente de desenvolvimento
   resources:
     limits:
-      cpu: 100m  # Limite de CPU
-      memory: 256Mi  # Limite de memória
+      cpu: 100m
+      memory: 256Mi
     requests:
-      cpu: 50m  # Solicitação de CPU
-      memory: 128Mi  # Solicitação de memória#
-  namespaceOverride: observability
+      cpu: 50m
+      memory: 128Mi
+  namespaceOverride: ""  # Deixe vazio para usar o namespace padrão da instalação
 
 # Configuração para o Prometheus Operator
 prometheusOperator:
-  createCustomResource: true  # Habilita CRDs customizadas necessarias para o operador
-  resources: {}  # Utiliza as configurações globais de recursos
+  createCustomResource: true
+  resources: {}
 
 # Configurações de anotação e rótulo específicos para o ambiente de desenvolvimento
-# Estes rótulos ajudam a identificar e organizar as instâncias no cluster.
 podLabels:
-  environment: development  # Rótulo para identificar o ambiente de desenvolvimento
+  environment: development
 
 # Monitoramento e alertas básicos
 prometheusRule:
-  enabled: true  # Habilita regras de alertas padrão
-  additionalPrometheusRulesMap: {}  # Mapa para regras adicionais se necessário
+  enabled: true
+  additionalPrometheusRulesMap: {}
 
-grafana:
-  ingress:
+# Configuração do Prometheus
+prometheus:
+  ingress:  # Esta é a configuração correta para o Ingress do Prometheus
     enabled: true
-    ingressClassName: nginx  # Classe de Ingress NGINX
+    ingressClassName: nginx
     annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /
+      kubernetes.io/ingress.class: nginx
     hosts:
-      - grafana.ops.905418282044.realhandsonlabs.net
+      - prometheus.ops.905418282044.realhandsonlabs.net
     paths:
       - /
     pathType: Prefix
-
-prometheus:
   prometheusSpec:
-    ingress:
-      enabled: true
-      ingressClassName: nginx  # Classe de Ingress NGINX
-      annotations:
-        nginx.ingress.kubernetes.io/rewrite-target: /
-      hosts:
-        - prometheus.ops.905418282044.realhandsonlabs.net
-      paths:
-        - /
-      pathType: Prefix
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
 
-alertmanager:
-  ingress:
+# Configuração do Grafana
+grafana:
+  ingress:  # Esta é a configuração correta para o Ingress do Grafana
     enabled: true
-    ingressClassName: nginx  # Classe de Ingress NGINX
+    ingressClassName: nginx
     annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /
+      kubernetes.io/ingress.class: nginx
     hosts:
-      - alertmanager.ops.905418282044.realhandsonlabs.net
+      - grafana.ops.905418282044.realhandsonlabs.net
     paths:
       - /
     pathType: Prefix
