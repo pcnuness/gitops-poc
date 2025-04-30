@@ -28,12 +28,11 @@ prometheus:
 
 # Ingress do Grafana
 grafana:
-  enabled: true
+  # username is 'admin'
+  adminPassword: prom-operator
   ingress:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: nginx
-    hosts:
-      - grafana.ops.905418282044.realhandsonlabs.net
-    paths:
-      - /
+    hosts: ['grafana.ops.905418282044.realhandsonlabs.net']
+    path: "/"
