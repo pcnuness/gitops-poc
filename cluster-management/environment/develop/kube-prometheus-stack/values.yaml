@@ -15,10 +15,9 @@ prometheus:
     ingress:
       enabled: true
       # Se sua versão de Kubernetes suporta ingressClassName diretamente:
-      ingressClassName: nginx
       annotations:
         kubernetes.io/ingress.class: nginx
-        nginx.ingress.kubernetes.io/rewrite-target: /
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
       hosts:
         - prometheus.ops.905418282044.realhandsonlabs.net
       paths:
@@ -34,9 +33,9 @@ prometheus:
 
 # Ingress do Grafana
 grafana:
+  enabled: true
   ingress:
     enabled: true
-    ingressClassName: nginx
     annotations:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /
@@ -44,7 +43,3 @@ grafana:
       - grafana.ops.905418282044.realhandsonlabs.net
     paths:
       - /
-    tls:
-      - hosts:
-          - grafana.ops.905418282044.realhandsonlabs.net
-        secretName: grafana-tls
