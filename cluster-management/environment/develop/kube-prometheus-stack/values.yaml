@@ -28,9 +28,9 @@ prometheusRule:
 prometheus:
   ingress:  # Esta é a configuração correta para o Ingress do Prometheus
     enabled: true
-    ingressClassName: nginx
     annotations:
       kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
       - prometheus.ops.905418282044.realhandsonlabs.net
     paths:
@@ -46,6 +46,9 @@ prometheus:
 grafana:
   ingress:  # Esta é a configuração correta para o Ingress do Grafana
     enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
       - grafana.ops.905418282044.realhandsonlabs.net
     paths:
