@@ -38,15 +38,11 @@ prometheus:
         memory: 512Mi
   ingress:
     enabled: true
-    ingressClassName: alb
+    ingressClassName: nginx
     annotations:
-      alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/target-type: instance
-      alb.ingress.kubernetes.io/subnets: subnet-0687ad9e5d27708e8, subnet-097e8629e5a2d2e91, subnet-0db6a48503e1f7a92
-      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP": 80, "HTTPS": 443 }]'
-      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:905418282044:certificate/695da736-395c-44a0-a2fb-8cb60a66a2e0
+      kubernetes.io/ingress.class: nginx
     hosts:
-      - prometheus.ops.905418282044.realhandsonlabs.net
+      - prometheus.905418282044.realhandsonlabs.net
     paths:
       - /
     pathType: Prefix
@@ -55,15 +51,11 @@ prometheus:
 grafana:
   ingress:
     enabled: true
-    ingressClassName: alb
+    ingressClassName: nginx
     annotations:
-      alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/target-type: instance
-      alb.ingress.kubernetes.io/subnets: subnet-0687ad9e5d27708e8, subnet-097e8629e5a2d2e91, subnet-0db6a48503e1f7a92
-      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP": 80, "HTTPS": 443 }]'
-      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:905418282044:certificate/695da736-395c-44a0-a2fb-8cb60a66a2e0
+      kubernetes.io/ingress.class: nginx
     paths:
       - /
     pathType: Prefix
     hosts:
-      - grafana.ops.905418282044.realhandsonlabs.net
+      - grafana.905418282044.realhandsonlabs.net
