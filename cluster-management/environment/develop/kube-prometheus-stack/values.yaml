@@ -31,3 +31,4 @@ grafana:
     hosts: 
       - grafana.ops.905418282044.realhandsonlabs.net
     path: "/"
+    pathType: Prefix
