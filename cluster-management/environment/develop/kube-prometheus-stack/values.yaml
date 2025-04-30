@@ -1,6 +1,5 @@
 # Configuração global
 global:
-  # Definindo o limite de recursos, típico para um ambiente de desenvolvimento
   resources:
     limits:
       cpu: 100m
@@ -8,44 +7,36 @@ global:
     requests:
       cpu: 50m
       memory: 128Mi
-  namespaceOverride: ""  # Deixe vazio para usar o namespace padrão da instalação
 
-# Configuração para o Prometheus Operator
-prometheusOperator:
-  createCustomResource: true
-  resources: {}
-
-# Configurações de anotação e rótulo específicos para o ambiente de desenvolvimento
-podLabels:
-  environment: development
-
-# Monitoramento e alertas básicos
-prometheusRule:
-  enabled: true
-  additionalPrometheusRulesMap: {}
-
-# Configuração do Prometheus
+# Ingress do Prometheus (note o bloco 'server.ingress', conforme template oficial)
 prometheus:
-  ingress:  # Esta é a configuração correta para o Ingress do Prometheus
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/rewrite-target: /
-    hosts:
-      - prometheus.ops.905418282044.realhandsonlabs.net
-    paths:
-      - /
-    pathType: Prefix
-  prometheusSpec:
+  # ESTE É O SUBCHART 'prometheus', não o chart-root
+  server:
+    ingress:
+      enabled: true
+      # Se sua versão de Kubernetes suporta ingressClassName diretamente:
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/rewrite-target: /
+      hosts:
+        - prometheus.ops.905418282044.realhandsonlabs.net
+      paths:
+        - /
+      tls:
+        - hosts:
+            - prometheus.ops.905418282044.realhandsonlabs.net
+          secretName: prometheus-tls
     resources:
       limits:
         cpu: 200m
         memory: 512Mi
 
-# Configuração do Grafana
+# Ingress do Grafana
 grafana:
-  ingress:  # Esta é a configuração correta para o Ingress do Grafana
+  ingress:
     enabled: true
+    ingressClassName: nginx
     annotations:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /
@@ -53,4 +44,7 @@ grafana:
       - grafana.ops.905418282044.realhandsonlabs.net
     paths:
       - /
-    pathType: Prefix
+    tls:
+      - hosts:
+          - grafana.ops.905418282044.realhandsonlabs.net
+        secretName: grafana-tls
