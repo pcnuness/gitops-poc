@@ -50,7 +50,7 @@ prometheus:
       nginx.ingress.kubernetes.io/auth-secret: basic-auth
       nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
     hosts:
-      - prometheus.ops.590184067017.realhandsonlabs.net
+      - prometheus.ops.905418282044.realhandsonlabs.net
     paths:
       - /
 
@@ -68,7 +68,7 @@ alertmanager:
       nginx.ingress.kubernetes.io/auth-secret: basic-auth
       nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
     hosts:
-      - alertmanager.590184067017.realhandsonlabs.net
+      - alertmanager.905418282044.realhandsonlabs.net
     paths:
       - /
 
@@ -86,4 +86,4 @@ grafana:
       - /
     pathType: Prefix
     hosts:
-      - grafana.ops.590184067017.realhandsonlabs.net
+      - grafana.ops.905418282044.realhandsonlabs.net

@@ -14,9 +14,13 @@
 ### 🔹 Criar pipeline para Habilitar Cluster In ArgoCD-Management
 
 ```
-argocd cluster add arn:aws:eks:us-east-1:590184067017:cluster/tah-demo-cluster --label environment=develop \     
-  --label name=tah-demo-cluster \
-  --label enable_kube_prometheus_stack=true
+argocd cluster add arn:aws:eks:us-east-1:905418282044:cluster/tah-demo-cluster \
+  --name tah-demo-project \
+  --label environment=develop \
+  --label enable_kube_prometheus_stack=true \
+  --label enable_ingress_nginx=true \
+  --annotation addons_repo_revision=develop \
+  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc
 ```
 
 # Commands
