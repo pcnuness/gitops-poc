@@ -8,11 +8,19 @@ global:
       cpu: 50m
       memory: 128Mi
 
+nodeExporter:
+  enabled: true
+  operatingSystems:
+    linux:
+      enabled: true
+    forceDeployDashboards: true
+
 # Ingress do Prometheus (note o bloco 'server.ingress', conforme template oficial)
 prometheus:
   ingress:
     enabled: true
     ingressClassName: nginx
+    servicePort: 9090
     annotations:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /
@@ -21,16 +29,23 @@ prometheus:
     paths:
       - /
 
+  prometheusSpec:
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+    externalUrl: https://prometheus.ops.905418282044.realhandsonlabs.net
+
 # Ingress do Grafana
 grafana:
   adminPassword: prom-operator
   ingress:
-    ingressClassName: nginx
     enabled: true
+    ingressClassName: nginx
     annotations:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts: 
       - grafana.ops.905418282044.realhandsonlabs.net
-    path: "/"
-    pathType: Prefix
+    path: 
+      - /
