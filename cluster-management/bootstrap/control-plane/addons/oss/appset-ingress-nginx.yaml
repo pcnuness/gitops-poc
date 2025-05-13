@@ -52,21 +52,6 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/default/addons/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/{{metadata.labels.environment}}/addons/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
-            values: |
-              controller:
-                kind: Deployment
-                allowSnippetAnnotations: true
-                service:
-                  type: LoadBalancer
-                  internal:
-                    enable: true
-                    annotations:
-                      service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
-                serviceAccount:
-                  create: false
-                  name: ingress-nginx
-                  annotations:
-                    eks.amazonaws.com/role-arn: arn:aws:iam::905418304539:role/cpe-application-dev-services-ingress-nginx-irsa
       destination:
         namespace: '{{values.addonChart}}'
         name: '{{name}}'
