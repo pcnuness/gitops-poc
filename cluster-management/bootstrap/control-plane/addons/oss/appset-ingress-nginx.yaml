@@ -54,7 +54,7 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
             values: |
               controller:
-                kind: DaemonSet
+                kind: Deployment
                 allowSnippetAnnotations: true
                 service:
                   type: LoadBalancer
@@ -66,7 +66,7 @@ spec:
                   create: true
                   name: ingress-nginx
                   annotations:
-                    eks.amazonaws.com/role-arn: {{metadata.annotations.ingress_nginx_iam_role_arn}}
+                    eks.amazonaws.com/role-arn: arn:aws:iam::905418304539:role/cpe-application-dev-services-ingress-nginx-irsa
       destination:
         namespace: '{{values.addonChart}}'
         name: '{{name}}'
