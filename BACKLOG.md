@@ -13,6 +13,7 @@
 
 ### 🔹 Criar pipeline para Habilitar Cluster In ArgoCD-Management
 
+#### Observability Stack
 ```
 argocd cluster add arn:aws:eks:us-east-1:905418282044:cluster/tah-demo-cluster \
   --name tah-demo-project \
@@ -23,6 +24,7 @@ argocd cluster add arn:aws:eks:us-east-1:905418282044:cluster/tah-demo-cluster \
   --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc
 ```
 
+#### Ingress Nginx and AWS LoadBalaner Controller
 ```
 argocd cluster add arn:aws:eks:us-east-1:905418304539:cluster/application-dev-services \
   --name application-dev-services \
