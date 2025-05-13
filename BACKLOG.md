@@ -43,11 +43,3 @@ export AWS_ACCESS_KEY_ID="AKIA"
 export AWS_SECRET_ACCESS_KEY="1HP"
 
 kubectl config use-context kind-argocd-main
-
-
- - Finalizar chamado Datami
- - Lancar Horas
-
- - Terminar documento SURF RCA
- - Lavatamento dos recursos WAF do Cliente TIP - Elaine se abriu chamado
- - TErminar documento Datami RCA
