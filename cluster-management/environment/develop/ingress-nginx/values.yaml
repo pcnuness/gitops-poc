@@ -7,3 +7,4 @@ controller:
       enable: true
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
+        service.k8s.aws/load-balancer-type: "nlb"
