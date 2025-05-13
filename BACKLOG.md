@@ -31,8 +31,8 @@ argocd cluster add arn:aws:eks:us-east-1:905418304539:cluster/application-dev-se
   --annotation aws_vpc_id=vpc-0d3334adb8ffe1bc8 \
   --annotation aws_cluster_name=application-dev-services \
   --annotation aws_load_balancer_controller_iam_role_arn=arn:aws:iam::905418304539:role/cpe-application-dev-services-aws-load-balancer-controller-irsa \
-  --annotation aws_load_balancer_controller_service_account=cpe-application-dev-services-aws-load-balancer-controller-irsa \
-  --annotation balancer-controller-irsa aws_load_balancer_controller_namespace=load-balancer-controller \
+  --annotation aws_load_balancer_controller_service_account=aws-load-balancer-controller \
+  --annotation aws_load_balancer_controller_namespace=kube-system \
   --annotation addons_repo_revision=develop \
   --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc
 ```
@@ -43,3 +43,11 @@ export AWS_ACCESS_KEY_ID="AKIA"
 export AWS_SECRET_ACCESS_KEY="1HP"
 
 kubectl config use-context kind-argocd-main
+
+
+ - Finalizar chamado Datami
+ - Lancar Horas
+
+ - Terminar documento SURF RCA
+ - Lavatamento dos recursos WAF do Cliente TIP - Elaine se abriu chamado
+ - TErminar documento Datami RCA
