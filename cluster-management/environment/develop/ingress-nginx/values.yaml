@@ -15,4 +15,4 @@ controller:
     create: false
     name: ingress-nginx
     annotations:
-      eks.amazonaws.com/role-arn: arn:aws:iam::905418304539:role/cpe-application-dev-services-ingress-nginx-irsa
+      eks.amazonaws.com/role-arn: arn:aws:iam::730335564649:role/cpe-application-dev-services-ingress-nginx-irsa
