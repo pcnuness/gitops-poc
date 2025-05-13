@@ -57,7 +57,7 @@ spec:
                 kind: DaemonSet
                 allowSnippetAnnotations: true
                 service:
-                  type: {{default "LoadBalancer" .metadata.annotations.ingress_nginx_service_type}}
+                  type: LoadBalancer
                   annotations:
                     service.k8s.aws/load-balancer-type: "nlb"
                     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
