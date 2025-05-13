@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-aws-for-fluent-bit
+  name: addons-aws-node-termination-handler
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
@@ -12,13 +12,16 @@ spec:
         generators:
           - clusters:
               values:
-                addonChart: aws-for-fluent-bit
+                addonChart: aws-node-termination-handler
                 # anything not staging or prod use this version
-                addonChartVersion: 0.1.32
+                addonChartVersion: 0.21.0
                 addonChartRepository: https://aws.github.io/eks-charts
               selector:
                 matchExpressions:
-                  - key: enable_aws_for_fluentbit
+                  - key: akuity.io/argo-cd-cluster-name
+                    operator: NotIn
+                    values: [in-cluster]
+                  - key: enable_aws_node_termination_handler
                     operator: In
                     values: ['true']
           - clusters:
@@ -26,13 +29,13 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 0.1.32
+                addonChartVersion: 0.21.0
           - clusters:
               selector:
                 matchLabels:
                   environment: prod
               values:
-                addonChartVersion: 0.1.32
+                addonChartVersion: 0.21.0
   template:
     metadata:
       name: addon-{{name}}-{{values.addonChart}}
@@ -53,20 +56,18 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/{{metadata.labels.environment}}/addons/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
             values: |
-              cloudWatchLogs:
-                enabled: true
-                region: {{metadata.annotations.aws_region}}
-                logGroupName: {{metadata.annotations.aws_for_fluentbit_log_group_name}}
-                logGroupTemplate: {{metadata.annotations.aws_for_fluentbit_log_group_name}}/workload/$kubernetes['namespace_name']
-                logStreamTemplate: $kubernetes['pod_name'].$kubernetes['container_name']
-                logRetentionDays: 90
+              awsRegion: {{metadata.annotations.aws_region}}
+              queueURL: {{metadata.annotations.aws_node_termination_handler_sqs_queue_url}}
+              enableSqsTerminationDraining: true
               serviceAccount:
-                name: {{metadata.annotations.aws_for_fluentbit_service_account}}
+                name: {{metadata.annotations.aws_node_termination_handler_service_account}}
                 annotations:
-                  eks.amazonaws.com/role-arn: {{metadata.annotations.aws_for_fluentbit_iam_role_arn}}
+                  eks.amazonaws.com/role-arn: {{metadata.annotations.aws_node_termination_handler_iam_role_arn}}
       destination:
-        namespace: '{{metadata.annotations.aws_for_fluentbit_namespace}}'
+        namespace: '{{metadata.annotations.aws_node_termination_handler_namespace}}'
         name: '{{name}}'
       syncPolicy:
         automated: {}
-        syncOptions: [CreateNamespace=true, ServerSideApply=true]
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true  # Big CRDs.

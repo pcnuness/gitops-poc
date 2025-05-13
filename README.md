@@ -136,7 +136,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 spec:
   rules:
-  - host: 80-port-jl72qzsvkmreurdg.labs.kodekloud.com
+  - host: argocd.905418304539.realhandsonlabs.net
     http:
       paths:
       - path: /
@@ -148,7 +148,7 @@ spec:
               name: https
   tls:
   - hosts:
-    - 80-port-jl72qzsvkmreurdg.labs.kodekloud.com
+    - argocd.905418304539.realhandsonlabs.net
 EOF
 ```
 

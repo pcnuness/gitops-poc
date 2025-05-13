@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-aws-for-fluent-bit
+  name: addons-aws-karpenter
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
@@ -12,13 +12,19 @@ spec:
         generators:
           - clusters:
               values:
-                addonChart: aws-for-fluent-bit
-                # anything not staging or prod use this version
-                addonChartVersion: 0.1.32
-                addonChartRepository: https://aws.github.io/eks-charts
+                addonChart: karpenter
+                addonChartReleaseName: karpenter
+                addonChartRepositoryNamespace: karpenter
+                addonChartVersion: v0.34.1
+                # using oci repostory already configure in argocd
+                # argocd repo add public.ecr.aws --type helm --name aws-public-ecr --enable-oci
+                addonChartRepository: public.ecr.aws
               selector:
                 matchExpressions:
-                  - key: enable_aws_for_fluentbit
+                  - key: akuity.io/argo-cd-cluster-name
+                    operator: NotIn
+                    values: [in-cluster]
+                  - key: enable_karpenter
                     operator: In
                     values: ['true']
           - clusters:
@@ -26,13 +32,13 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 0.1.32
+                addonChartVersion: v0.34.1
           - clusters:
               selector:
                 matchLabels:
                   environment: prod
               values:
-                addonChartVersion: 0.1.32
+                addonChartVersion: v0.34.1
   template:
     metadata:
       name: addon-{{name}}-{{values.addonChart}}
@@ -42,31 +48,29 @@ spec:
         - repoURL: '{{metadata.annotations.addons_repo_url}}'
           targetRevision: '{{metadata.annotations.addons_repo_revision}}'
           ref: values
-        - chart: '{{values.addonChart}}'
+        - chart: '{{values.addonChartRepositoryNamespace}}/{{values.addonChart}}'
           repoURL: '{{values.addonChartRepository}}'
           targetRevision: '{{values.addonChartVersion}}'
           helm:
-            releaseName: '{{values.addonChart}}'
+            releaseName: '{{values.addonChartReleaseName}}'
             ignoreMissingValueFiles: true
             valueFiles:
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/default/addons/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/{{metadata.labels.environment}}/addons/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
             values: |
-              cloudWatchLogs:
-                enabled: true
-                region: {{metadata.annotations.aws_region}}
-                logGroupName: {{metadata.annotations.aws_for_fluentbit_log_group_name}}
-                logGroupTemplate: {{metadata.annotations.aws_for_fluentbit_log_group_name}}/workload/$kubernetes['namespace_name']
-                logStreamTemplate: $kubernetes['pod_name'].$kubernetes['container_name']
-                logRetentionDays: 90
+              settings:
+                clusterName: {{metadata.annotations.aws_cluster_name}}
+                interruptionQueue: {{metadata.annotations.karpenter_sqs_queue_name}}
               serviceAccount:
-                name: {{metadata.annotations.aws_for_fluentbit_service_account}}
+                name: {{metadata.annotations.karpenter_service_account}}
                 annotations:
-                  eks.amazonaws.com/role-arn: {{metadata.annotations.aws_for_fluentbit_iam_role_arn}}
+                  eks.amazonaws.com/role-arn: {{metadata.annotations.karpenter_iam_role_arn}}
       destination:
-        namespace: '{{metadata.annotations.aws_for_fluentbit_namespace}}'
+        namespace: '{{metadata.annotations.karpenter_namespace}}'
         name: '{{name}}'
       syncPolicy:
         automated: {}
-        syncOptions: [CreateNamespace=true, ServerSideApply=true]
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true  # Big CRDs.

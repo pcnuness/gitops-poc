@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-aws-for-fluent-bit
+  name: addons-aws-cert-manager
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
@@ -12,27 +12,32 @@ spec:
         generators:
           - clusters:
               values:
-                addonChart: aws-for-fluent-bit
+                addonChart: cert-manager
                 # anything not staging or prod use this version
-                addonChartVersion: 0.1.32
-                addonChartRepository: https://aws.github.io/eks-charts
+                addonChartVersion: v1.14.3
+                addonChartRepository: https://charts.jetstack.io
               selector:
                 matchExpressions:
-                  - key: enable_aws_for_fluentbit
+                  - key: akuity.io/argo-cd-cluster-name
+                    operator: NotIn
+                    values: [in-cluster]
+                  - key: enable_cert_manager
                     operator: In
                     values: ['true']
+                  - key: aws_cluster_name
+                    operator: Exists
           - clusters:
               selector:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 0.1.32
+                addonChartVersion: v1.14.3
           - clusters:
               selector:
                 matchLabels:
                   environment: prod
               values:
-                addonChartVersion: 0.1.32
+                addonChartVersion: v1.14.3
   template:
     metadata:
       name: addon-{{name}}-{{values.addonChart}}
@@ -53,20 +58,22 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/{{metadata.labels.environment}}/addons/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
             values: |
-              cloudWatchLogs:
-                enabled: true
-                region: {{metadata.annotations.aws_region}}
-                logGroupName: {{metadata.annotations.aws_for_fluentbit_log_group_name}}
-                logGroupTemplate: {{metadata.annotations.aws_for_fluentbit_log_group_name}}/workload/$kubernetes['namespace_name']
-                logStreamTemplate: $kubernetes['pod_name'].$kubernetes['container_name']
-                logRetentionDays: 90
+              installCRDs: true
               serviceAccount:
-                name: {{metadata.annotations.aws_for_fluentbit_service_account}}
+                name: {{metadata.annotations.cert_manager_service_account}}
                 annotations:
-                  eks.amazonaws.com/role-arn: {{metadata.annotations.aws_for_fluentbit_iam_role_arn}}
+                  eks.amazonaws.com/role-arn: {{metadata.annotations.cert_manager_iam_role_arn}}
+          # fileParameters:
+          #  - name:
+          #    path:
+          # parameters
+          # values
+          # valuesObject
       destination:
-        namespace: '{{metadata.annotations.aws_for_fluentbit_namespace}}'
+        namespace: '{{metadata.annotations.cert_manager_namespace}}'
         name: '{{name}}'
       syncPolicy:
         automated: {}
-        syncOptions: [CreateNamespace=true, ServerSideApply=true]
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true  # Big CRDs.
