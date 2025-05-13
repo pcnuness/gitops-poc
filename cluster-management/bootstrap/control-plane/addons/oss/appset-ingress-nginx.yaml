@@ -57,6 +57,7 @@ spec:
                 kind: Deployment
                 allowSnippetAnnotations: true
                 service:
+                  type: LoadBalancer
                   internal:
                     enable: true
                     annotations:
