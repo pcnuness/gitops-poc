@@ -57,13 +57,12 @@ spec:
                 kind: Deployment
                 allowSnippetAnnotations: true
                 service:
-                  type: LoadBalancer
-                  annotations:
-                    service.k8s.aws/load-balancer-type: "nlb"
-                    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
-                    service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
+                  internal:
+                    enable: true
+                    annotations:
+                      service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
                 serviceAccount:
-                  create: true
+                  create: false
                   name: ingress-nginx
                   annotations:
                     eks.amazonaws.com/role-arn: arn:aws:iam::905418304539:role/cpe-application-dev-services-ingress-nginx-irsa
