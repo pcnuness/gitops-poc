@@ -52,6 +52,21 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/default/addons/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/{{metadata.labels.environment}}/addons/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
+            values: |
+              controller:
+                kind: DaemonSet
+                allowSnippetAnnotations: true
+                service:
+                  type: {{default "LoadBalancer" .metadata.annotations.ingress_nginx_service_type}}
+                  annotations:
+                    service.k8s.aws/load-balancer-type: "nlb"
+                    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+                    service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
+                serviceAccount:
+                  create: true
+                  name: ingress-nginx
+                  annotations:
+                    eks.amazonaws.com/role-arn: {{metadata.annotations.aws_load_balancer_controller_iam_role_arn}}
       destination:
         namespace: '{{values.addonChart}}'
         name: '{{name}}'
