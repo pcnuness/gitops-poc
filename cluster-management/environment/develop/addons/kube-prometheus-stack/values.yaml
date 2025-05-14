@@ -1,7 +1,3 @@
-nameOverride:	"cpe-obs"
-fullnameOverride: "cpe-observability"
-namespaceOverride: "observability"
-
 prometheus-node-exporter:
   namespaceOverride: ""
   podLabels:
