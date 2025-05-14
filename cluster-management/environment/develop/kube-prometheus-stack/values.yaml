@@ -1,14 +1,6 @@
 nameOverride:	cpe-mon
 fullnameOverride: cpe-monitoring
 
-  resources:
-    limits:
-      cpu: 100m
-      memory: 256Mi
-    requests:
-      cpu: 50m
-      memory: 128Mi
-
 nodeExporter:
   enabled: true
   operatingSystems:
