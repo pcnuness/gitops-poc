@@ -2,7 +2,6 @@
 controller:
   kind: DaemonSet
   allowSnippetAnnotations: true
-
   service:
     enabled: true
     type: LoadBalancer
