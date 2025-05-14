@@ -1,6 +1,6 @@
 ---
 controller:
-  kind: DaemonSet
+  kind: Deployment
   allowSnippetAnnotations: true
   service:
     enabled: true
