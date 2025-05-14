@@ -1,5 +1,6 @@
-nameOverride:	cpe-mon
-fullnameOverride: cpe-monitoring
+nameOverride:	"cpe-obs"
+fullnameOverride: "cpe-observability"
+namespaceOverride: "observability"
 
 nodeExporter:
   enabled: true
