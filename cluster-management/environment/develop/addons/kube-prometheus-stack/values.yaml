@@ -31,6 +31,7 @@ nodeExporter:
 # Ingress do Prometheus (note o bloco 'server.ingress', conforme template oficial)
 prometheus:
   enabled: true
+  namespaceOverride: kube-prometheus-stack
   ingress:
     enabled: true
     ingressClassName: nginx
@@ -51,6 +52,7 @@ prometheus:
 # Ingress do Grafana
 grafana:
   enabled: true
+  namespaceOverride: kube-prometheus-stack
   adminPassword: prom-operator
   ingress:
     enabled: true
