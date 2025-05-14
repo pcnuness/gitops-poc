@@ -18,7 +18,7 @@ spec:
                 addonChartRepository: https://prometheus-community.github.io/helm-charts
               selector:
                 matchExpressions:
-                  - key: kube-prometheus-stack
+                  - key: enable_kube_prometheus_stack
                     operator: In
                     values: ['true']
           - clusters:
