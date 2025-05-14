@@ -1,18 +1,14 @@
 ---
 controller:
-  kind: Deployment
+  kind: DaemonSet
   allowSnippetAnnotations: true
 
   service:
     enabled: true
     type: LoadBalancer
     annotations:
-      service.k8s.aws/load-balancer-type: "nlb"
-      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+      service.beta.kubernetes.io/aws-load-balancer-name: cpe-ingress-nginx-private
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb
       service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
-
-  serviceAccount:
-    create: false
-    name: ingress-nginx
-    annotations:
-      eks.amazonaws.com/role-arn: arn:aws:iam::730335564649:role/cpe-application-dev-services-ingress-nginx-irsa
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+      service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthz
