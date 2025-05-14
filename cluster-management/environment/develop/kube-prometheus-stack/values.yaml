@@ -1,8 +1,5 @@
-# Configuração global
-global:
-
-nameOverride:	cpe-monitoring	
-fullnameOverride: cpe-monitoring-stack	
+nameOverride:	cpe-mon
+fullnameOverride: cpe-monitoring
 
   resources:
     limits:
@@ -21,10 +18,10 @@ nodeExporter:
 
 # Ingress do Prometheus (note o bloco 'server.ingress', conforme template oficial)
 prometheus:
+  enabled: true
   ingress:
     enabled: true
     ingressClassName: nginx
-    servicePort: 9090
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
@@ -41,6 +38,7 @@ prometheus:
 
 # Ingress do Grafana
 grafana:
+  enabled: true
   adminPassword: prom-operator
   ingress:
     enabled: true
