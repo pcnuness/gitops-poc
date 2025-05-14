@@ -1,0 +1,67 @@
+nameOverride:	"cpe-obs"
+fullnameOverride: "cpe-observability"
+namespaceOverride: "observability"
+
+prometheus-node-exporter:
+  namespaceOverride: ""
+  podLabels:
+    ## Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards
+    ##
+    jobLabel: node-exporter
+  releaseLabel: true
+  extraArgs:
+    - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+    - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+  service:
+    portName: http-metrics
+    ipDualStack:
+      enabled: false
+      ipFamilies: ["IPv6", "IPv4"]
+      ipFamilyPolicy: "PreferDualStack"
+    labels:
+      jobLabel: node-exporter
+
+  prometheus:
+    monitor:
+      enabled: true
+      
+nodeExporter:
+  enabled: true
+  operatingSystems:
+    linux:
+      enabled: true
+    forceDeployDashboards: true
+
+# Ingress do Prometheus (note o bloco 'server.ingress', conforme template oficial)
+prometheus:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    hosts:
+      - prometheus.ops.905418282044.realhandsonlabs.net
+    paths:
+      - /
+
+  prometheusSpec:
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+    externalUrl: https://prometheus.ops.905418282044.realhandsonlabs.net
+
+# Ingress do Grafana
+grafana:
+  enabled: true
+  adminPassword: prom-operator
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    hosts: 
+      - grafana.ops.905418282044.realhandsonlabs.net
+    path: 
+      - /
