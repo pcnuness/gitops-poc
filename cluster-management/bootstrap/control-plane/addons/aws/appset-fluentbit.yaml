@@ -14,7 +14,7 @@ spec:
               values:
                 addonChart: aws-for-fluent-bit
                 # anything not staging or prod use this version
-                addonChartVersion: 0.1.32
+                addonChartVersion: 0.1.35
                 addonChartRepository: https://aws.github.io/eks-charts
               selector:
                 matchExpressions:
@@ -26,13 +26,13 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 0.1.32
+                addonChartVersion: 0.1.35
           - clusters:
               selector:
                 matchLabels:
-                  environment: prod
+                  environment: production
               values:
-                addonChartVersion: 0.1.32
+                addonChartVersion: 0.1.35
   template:
     metadata:
       name: addon-{{name}}-{{values.addonChart}}
@@ -53,12 +53,12 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/{{metadata.labels.environment}}/addons/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
             values: |
+              cloudWatch:
+                region: {{metadata.annotations.aws_region}}
               cloudWatchLogs:
                 enabled: true
                 region: {{metadata.annotations.aws_region}}
                 logGroupName: {{metadata.annotations.aws_for_fluentbit_log_group_name}}
-                logGroupTemplate: {{metadata.annotations.aws_for_fluentbit_log_group_name}}/workload/$kubernetes['namespace_name']
-                logStreamTemplate: $kubernetes['pod_name'].$kubernetes['container_name']
                 logRetentionDays: 90
               serviceAccount:
                 name: {{metadata.annotations.aws_for_fluentbit_service_account}}

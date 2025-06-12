@@ -2,7 +2,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-aws-external-dns
+  name: addons-external-dns
+  annotations:
+    gitops.cloud/managed-by: TeamPlataform
+    gitops.cloud/area: DevOps
+    gitops.cloud/service: Networking
+    external_dns_iam_role_arn: arn:aws:iam::{{.metadata.annotations.aws_account_id}}:role/cpe-{{.name}}-external-dns-irsa
+    external_dns_service_account: external-dns
+    external_dns_domain_filters: |
+      - example.org
+    aws_cluster_name: '{{.name}}'
 spec:
   goTemplate: true
   syncPolicy:
