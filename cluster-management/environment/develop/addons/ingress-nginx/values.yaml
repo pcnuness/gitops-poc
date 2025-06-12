@@ -1,13 +1,19 @@
 ---
+fullnameOverride: cpe-ingress-nlb
 controller:
-  kind: Deployment
+  kind: DaemonSet
   allowSnippetAnnotations: true
-  service:
+  metrics:
     enabled: true
-    type: LoadBalancer
-    annotations:
-      service.beta.kubernetes.io/aws-load-balancer-name: cpe-ingress-nlb
-      service.beta.kubernetes.io/aws-load-balancer-type: nlb
-      service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
-      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
-      service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthz
+  podAnnotations:
+    prometheus.io/port: "10254"
+    prometheus.io/scrape: "true"
+  service:
+    internal:
+      enable: true
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-name: cpe-ingress-nlb
+        service.beta.kubernetes.io/aws-load-balancer-type: nlb
+        service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
+        service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+        service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthz
