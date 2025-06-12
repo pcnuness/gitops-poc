@@ -25,13 +25,13 @@ argocd cluster add arn:aws:eks:us-east-1:730335564649:cluster/tah-demo-cluster \
 
 #### Ingress Nginx and AWS LoadBalaner Controller
 ```
-argocd cluster add arn:aws:eks:us-east-1:730335564649:cluster/application-dev-services \
+argocd cluster add arn:aws:eks:us-east-1:590183702475:cluster/eks-infa-ops-services \
   --name application-dev-services \
   --label environment=develop \
   --label enable_ingress_nginx=true \
-  --annotation aws_vpc_id=vpc-0d3334adb8ffe1bc8 \
+  --annotation aws_vpc_id=vpc-089db93fec5de56cb \
   --annotation aws_cluster_name=application-dev-services \
-  --annotation aws_load_balancer_controller_iam_role_arn=arn:aws:iam::730335564649:role/cpe-application-dev-services-aws-load-balancer-controller-irsa \
+  --annotation aws_load_balancer_controller_iam_role_arn=arn:aws:iam::590183702475:role/cpe-application-dev-services-aws-load-balancer-controller-irsa \
   --annotation aws_load_balancer_controller_service_account=aws-load-balancer-controller \
   --annotation aws_load_balancer_controller_namespace=kube-system \
   --annotation addons_repo_revision=develop \
@@ -47,7 +47,7 @@ argocd cluster add arn:aws:eks:us-east-1:730335564649:cluster/toh-demo-cluster \
 
 # Commands
 
-export AWS_ACCESS_KEY_ID="AKIA"          
-export AWS_SECRET_ACCESS_KEY="1HP"
+export AWS_ACCESS_KEY_ID="AKI"          
+export AWS_SECRET_ACCESS_KEY="HiC"
 
 kubectl config use-context kind-argocd-main
