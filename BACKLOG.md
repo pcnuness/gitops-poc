@@ -20,7 +20,8 @@ argocd cluster add arn:aws:eks:us-east-1:730335564649:cluster/tah-demo-cluster \
   --label environment=develop \
   --label enable_kube_prometheus_stack=true \
   --annotation addons_repo_revision=develop \
-  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc
+  --annotation addons_repo_basepath=cluster-management/ \
+  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc.git
 ```
 
 #### Ingress Nginx and AWS LoadBalaner Controller
@@ -35,7 +36,8 @@ argocd cluster add arn:aws:eks:us-east-1:590183702475:cluster/eks-infa-ops-servi
   --annotation aws_load_balancer_controller_service_account=aws-load-balancer-controller \
   --annotation aws_load_balancer_controller_namespace=kube-system \
   --annotation addons_repo_revision=develop \
-  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc
+  --annotation addons_repo_basepath=cluster-management/ \
+  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc.git
 ```
 
 argocd cluster add arn:aws:eks:us-east-1:730335564649:cluster/toh-demo-cluster \
@@ -43,7 +45,8 @@ argocd cluster add arn:aws:eks:us-east-1:730335564649:cluster/toh-demo-cluster \
   --label environment=develop \
   --label enable_ingress_nginx=true \
   --annotation addons_repo_revision=develop \
-  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc
+  --annotation addons_repo_basepath=cluster-management/ \
+  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc.git
 
 # Commands
 
