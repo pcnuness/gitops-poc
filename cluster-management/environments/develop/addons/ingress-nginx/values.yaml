@@ -1,7 +1,7 @@
 ---
-fullnameOverride: cpe-ingress-nlb
+fullnameOverride: ingress-nlb
 controller:
-  kind: DaemonSet
+  kind: Deployment
   replicaCount: 3
   allowSnippetAnnotations: true
   metrics:
@@ -13,7 +13,7 @@ controller:
     internal:
       enable: true
       annotations:
-        service.beta.kubernetes.io/aws-load-balancer-name: cpe-ingress-nlb
+        service.beta.kubernetes.io/aws-load-balancer-name: ingress-nlb
         service.beta.kubernetes.io/aws-load-balancer-type: nlb
         service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
         service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
