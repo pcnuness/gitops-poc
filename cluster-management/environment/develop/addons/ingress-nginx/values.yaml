@@ -1,5 +1,6 @@
 ---
 fullnameOverride: cpe-ingress-nlb
+replicaCount: 3
 controller:
   kind: DaemonSet
   allowSnippetAnnotations: true

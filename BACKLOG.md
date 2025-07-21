@@ -1,5 +1,8 @@
 ## 📌 Próximos Passos (Sugestões)
 
+### 🔹 Configurar App para monitoramento dos control-plane
+- Criar **App** para monitoramento das AppSets e App
+
 ### 🔹 Criar a estrutura para utilizando Helm Charts
 - Criar os arquivos de configuração dos resources:
   - `charts/base-resources/`
@@ -7,9 +10,6 @@
 ### 🔹 Adicionar Prometheus AlertManager para alertas
 - Ativar no `values.yaml` a configuração do **AlertManager**.
 - Configurar **regras personalizadas** para detecção de falhas.
-
-### 🔹 Configurar Grafana Dashboards via Helm
-- Criar **ConfigMaps** para provisionamento automático de dashboards customizados.
 
 ### 🔹 Criar pipeline para Habilitar Cluster In ArgoCD-Management
 

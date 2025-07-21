@@ -1,0 +1,30 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bootstrap-gitops-application-management
+  namespace: argocd
+  annotations:
+    gitops.plataform/area: devops
+    gitops.plataform/service: gitops
+    gitops.plataform/managed-by: teamplataform
+spec:
+  project: default
+  source:
+    repoURL: https://gitlab.com/minha-biblioteca/gitops/application-management.git
+    targetRevision: migration
+    path: bootstraps/control-plane
+  destination:
+    namespace: argocd
+    name: eks-green-production-services
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
