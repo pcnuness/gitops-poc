@@ -1,8 +1,8 @@
 ---
 fullnameOverride: cpe-ingress-nlb
-replicaCount: 3
 controller:
   kind: DaemonSet
+  replicaCount: 3
   allowSnippetAnnotations: true
   metrics:
     enabled: true
