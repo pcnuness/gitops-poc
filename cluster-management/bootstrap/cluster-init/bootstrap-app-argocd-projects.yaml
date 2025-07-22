@@ -1,8 +1,9 @@
+
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bootstrap-gitops-application-management
+  name: bootstrap-gitops-app-argocd-projects
   namespace: argocd
   annotations:
     gitops.plataform/area: devops
@@ -11,14 +12,14 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/pcnuness/gitops-poc.git
+    repoURL: https://gitlab.com/minha-biblioteca/gitops/application-management.git
     targetRevision: migration
-    path: bootstraps/cluster-init
+    path: bootstraps/control-plane/argocd-config
     directory:
       recurse: true
   destination:
     namespace: argocd
-    name: eks-green-production-services
+    name: in-cluster
   syncPolicy:
     automated:
       prune: true
