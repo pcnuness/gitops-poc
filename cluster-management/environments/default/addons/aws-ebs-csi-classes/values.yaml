@@ -4,13 +4,11 @@ kind: StorageClass
 metadata:
   name: ebs-gp3
   annotations:
-    storageclass.kubernetes.io/is-default-class: "false"
-  parameters:
-    fsType: ext4
-    type: gp3
-    encrypted: "true"
-  spec:
-    provisioner: ebs.csi.aws.com
-    reclaimPolicy: Delete
-    volumeBindingMode: WaitForFirstConsumer
-    allowVolumeExpansion: true
+    storageclass.kubernetes.io/is-default-class: "true"
+allowVolumeExpansion: true
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  csi.storage.k8s.io/fstype: xfs
+  type: gp3
+  encrypted: "true"
