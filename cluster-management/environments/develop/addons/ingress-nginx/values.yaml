@@ -1,8 +1,8 @@
 ---
 fullnameOverride: ingress-nlb
 controller:
-  kind: DeamonSet
-  replicaCount: 3
+  kind: DaemonSet
+  #replicaCount: 3
   allowSnippetAnnotations: false
   metrics:
     enabled: true
