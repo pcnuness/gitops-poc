@@ -3,7 +3,7 @@ fullnameOverride: ingress-nlb
 controller:
   kind: DeamonSet
   replicaCount: 3
-  allowSnippetAnnotations: true
+  allowSnippetAnnotations: false
   metrics:
     enabled: true
   podAnnotations:
