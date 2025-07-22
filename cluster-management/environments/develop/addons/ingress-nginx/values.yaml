@@ -1,5 +1,4 @@
 ---
-fullnameOverride: ingress-nlb
 controller:
   kind: DaemonSet
   #replicaCount: 3
