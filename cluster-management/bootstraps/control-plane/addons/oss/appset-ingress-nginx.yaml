@@ -2,8 +2,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-ingress-nginx
+  name: addon-ingress-nginx
   namespace: argocd
+  annotations:
+    gitops.plataform/area: networking
+    gitops.plataform/service: netwok-egress
+    gitops.plataform/managed-by: teamplataform
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: false
@@ -25,13 +29,13 @@ spec:
           - clusters:
               selector:
                 matchLabels:
-                  environment: develop
+                  environment: stage
               values:
                 addonChartVersion: 4.12.1
           - clusters:
               selector:
                 matchLabels:
-                  environment: staging
+                  environment: production
               values:
                 addonChartVersion: 4.9.1
   template:
