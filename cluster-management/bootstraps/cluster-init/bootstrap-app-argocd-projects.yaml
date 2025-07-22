@@ -14,7 +14,7 @@ spec:
   source:
     repoURL: https://github.com/pcnuness/gitops-poc.git
     targetRevision: develop
-    path: bootstraps/control-plane/argocd-config
+    path: cluster-management/bootstraps/control-plane/argocd-config
     directory:
       recurse: true
   destination:
