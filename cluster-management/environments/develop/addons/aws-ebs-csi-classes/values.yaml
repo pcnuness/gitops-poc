@@ -1,4 +1,4 @@
-gp2:
+ebs-gp2:
   enabled: true
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
