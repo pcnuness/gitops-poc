@@ -1,7 +1,6 @@
 ---
 controller:
   kind: DaemonSet
-  #replicaCount: 3
   allowSnippetAnnotations: false
   metrics:
     enabled: true
@@ -15,10 +14,20 @@ controller:
     requests:
       cpu: 100m
       memory: 90Mi
-  nodeSelector:
-    kubernetes.io/os: linux
-  affinity: {}
-  topologySpreadConstraints: []
+  ingressClassResource:
+    name: nginx
+    default: true
+    controllerValue: "k8s.io/ingress-nginx"
+  ingressClass: nginx
+  service:
+    internal:
+      enable: true
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+        service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
+        service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+        service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: "/healthz"
+        service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "10254"
   keda:
     apiVersion: "keda.sh/v1alpha1"
     ## apiVersion changes with keda 1.x vs 2.x
