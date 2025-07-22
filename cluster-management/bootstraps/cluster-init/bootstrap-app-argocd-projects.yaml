@@ -12,7 +12,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/pcnuness/gitops-poc.git.git
+    repoURL: https://github.com/pcnuness/gitops-poc.git
     targetRevision: develop
     path: bootstraps/control-plane/argocd-config
     directory:
