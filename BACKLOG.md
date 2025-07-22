@@ -40,13 +40,23 @@ argocd cluster add arn:aws:eks:us-east-1:590183702475:cluster/eks-infa-ops-servi
   --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc.git
 ```
 
-argocd cluster add arn:aws:eks:us-east-1:730335564649:cluster/toh-demo-cluster \
-  --name toh-demo-cluster \
-  --label environment=develop \
+argocd cluster add arn:aws:eks:us-east-1:12345678912:cluster/gitops-management-services \
+  --name gitops-management-services \
+  --label enable_aws_ebs_csi_resources=true \
+  --label enable_aws_load_balancer_controller=true \
   --label enable_ingress_nginx=true \
-  --annotation addons_repo_revision=develop \
+  --label enable_kube_prometheus_stack=true \
+  --label enable_metrics_server=true \
+  --label environment=develop \
   --annotation addons_repo_basepath=cluster-management/ \
-  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc.git
+  --annotation addons_repo_revision=develop \
+  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc \
+  --annotation aws_cluster_name=gitops-management-services \
+  --annotation aws_load_balancer_controller_iam_role_arn=arn:aws:iam::12345678912:role/gitops-management-services-aws-load-balancer-controller-irsa \
+  --annotation aws_load_balancer_controller_namespace=kube-system \
+  --annotation aws_load_balancer_controller_service_account=aws-load-balancer-controller \
+  --annotation aws_vpc_id=vpc-xxx
+
 
 # Commands
 
