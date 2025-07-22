@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/pcnuness/gitops-poc.git
-    targetRevision: migration
+    targetRevision: develop
     path: bootstraps/cluster-init
     directory:
       recurse: true
