@@ -28,7 +28,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: gp3
+          storageClassName: "gp3"
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
@@ -293,10 +293,10 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: gp3
+          storageClassName: "gp3"
           resources:
             requests:
-              storage: 256Gi
+              storage: 56Gi
 extraManifests:
   - apiVersion: v1
     kind: Secret
