@@ -12,9 +12,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://gitlab.com/minha-biblioteca/gitops/application-management.git
-    targetRevision: migration
-    path: bootstraps/control-plane/argocd-config
+    repoURL: https://github.com/pcnuness/gitops-poc.git.git
+    targetRevision: develop
+    path: cluster-management/bootstraps/control-plane/argocd-config
     directory:
       recurse: true
   destination:
