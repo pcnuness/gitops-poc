@@ -1,4 +1,4 @@
-ebs-gp2:
+gp2:
   enabled: true
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
@@ -9,7 +9,7 @@ ebs-gp2:
     provisioner: kubernetes.io/aws-ebs
     reclaimPolicy: Retain
     volumeBindingMode: WaitForFirstConsumer
-ebs-gp3:
+gp3:
   enabled: true
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
