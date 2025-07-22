@@ -1,0 +1,307 @@
+---
+fullnameOverride: kube-prometheus-stack
+crds:
+  enabled: true
+defaultRules:
+  create: true
+  rules:
+    windows: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
+    kubelet: false
+# ==================================================================
+# SETUP ALERTMANAGER
+# ==================================================================
+alertmanager:
+  enabled: true
+  forceDeployDashboards: false
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  serviceMonitor:
+    selfMonitor: true
+  alertmanagerSpec:
+    logFormat: logfmt
+    logLevel: info
+    replicas: 1
+    retention: 120h
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "gp3"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 200m
+        memory: 512Mi
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/part-of: kube-prometheus-stack
+# ==================================================================
+# SETUP GRAFANA
+# ==================================================================
+grafana:
+  enabled: true
+  replicas: 3
+  podDisruptionBudget:
+    maxUnavailable: 1
+  deploymentStrategy:
+    type: RollingUpdate
+  configMapAnnotations:
+    argocd.argoproj.io/sync-options: Replace=true
+  serviceMonitor:
+    enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - grafana.637423598458.realhandsonlabs.net
+  resources:
+    limits:
+      cpu: 100m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 1Gi
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: grafana
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: "gp3"
+    accessModes:
+      - ReadWriteOnce
+    size: 32Gi
+    finalizers:
+      - kubernetes.io/pvc-protection
+  adminPassword: "nAhR#L3iJgdp%Cbm7Whjy7Hb9^"
+  plugins:
+    - grafana-piechart-panel
+    - grafana-polystat-panel
+    - grafana-clock-panel
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'adhoc'
+          orgId: 1
+          folder: 'ADHOC'
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/adhoc
+        - name: 'networking'
+          orgId: 1
+          folder: 'Networking'
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/networking
+  dashboards:
+    networking:
+      kubernetes-coredns:
+        gnetId: 15762
+        revision: 1
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+  grafana.ini:
+    analytics:
+      check_for_updates: false
+      check_for_plugin_updates: false
+      feedback_links_enabled: false
+  sidecar:
+    dashboards:
+      enabled: true
+    datasources:
+      enabled: true
+      defaultDatasourceEnabled: true
+      isDefaultDatasource: true
+      timeout: 15
+      alertmanager:
+        enabled: true
+  useStatefulSet: true
+# ==================================================================
+# SETUP SCRAPING METRICS KUBERNETES
+# ==================================================================
+kubernetesServiceMonitors:
+  enabled: true
+kubeApiServer:
+  enabled: true
+kubelet:
+  enabled: true
+  namespace: kube-system
+  serviceMonitor:
+    https: true
+    insecureSkipVerify: true
+    cAdvisor: true
+    probes: true
+    resource: true
+    cAdvisorRelabelings:
+      - action: replace
+        sourceLabels:
+          - "__metrics_path__"
+        targetLabel: metrics_path
+      - sourceLabels:
+          - "__meta_kubernetes_endpoint_address_target_name"
+        action: drop
+        regex: "fargate-.*"
+    probesRelabelings:
+      - action: replace
+        sourceLabels:
+          - "__metrics_path__"
+        targetLabel: metrics_path
+      - sourceLabels:
+          - "__meta_kubernetes_endpoint_address_target_name"
+        action: drop
+        regex: "fargate-.*"
+    relabelings:
+      - action: replace
+        sourceLabels: [__metrics_path__]
+        targetLabel: metrics_path
+      - sourceLabels:
+          - "__meta_kubernetes_endpoint_address_target_name"
+        action: drop
+        regex: "fargate-.*"
+kubeControllerManager:
+  enabled: false
+coreDns:
+  enabled: true
+kubeDns:
+  enabled: false
+kubeEtcd:
+  enabled: true
+kubeScheduler:
+  enabled: true
+kubeProxy:
+  enabled: false
+kubeStateMetrics:
+  enabled: true
+# ==================================================================
+# SETUP KUBE-STATE-METRICS
+# ==================================================================
+kube-state-metrics:
+  prometheusScrape: true
+  prometheus:
+    monitor:
+      enabled: true
+      additionalLabels:
+        release: kube-prometheus-stack
+  resources:
+    limits:
+      cpu: 100m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  selfMonitor:
+    enabled: false
+# ==================================================================
+# SETUP NODE EXPORTER
+# ==================================================================
+nodeExporter:
+  enabled: true
+  operatingSystems:
+    linux:
+      enabled: true
+    aix:
+      enabled: true
+    darwin:
+      enabled: true
+  forceDeployDashboards: true
+# ==================================================================
+# SETUP PROMETHEUS NODE EXPORTER
+# ==================================================================
+prometheus-node-exporter:
+  revisionHistoryLimit: 10
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 64Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  priorityClassName: system-node-critical
+# ==================================================================
+# SETUP PROMETHEUS OPERATOR
+# ==================================================================
+prometheusOperator:
+  enabled: true
+  revisionHistoryLimit: 10
+  admissionWebhooks:
+    enabled: true
+    timeoutSeconds: 10
+# ==================================================================
+# SETUP PROMETHEUS
+# ==================================================================
+prometheus:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/auth-realm: "Auth Required - Monitoring"
+      nginx.ingress.kubernetes.io/auth-secret: "admin-cloud"
+      nginx.ingress.kubernetes.io/auth-type: "basic"
+    hosts:
+      - prometheus.637423598458.realhandsonlabs.net
+  serviceMonitor:
+    selfMonitor: true
+  prometheusSpec:
+    scrapeInterval: 1m
+    scrapeTimeout: 30s
+    evaluationInterval: "1m"
+    enableAdminAPI: true
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    scrapeConfigSelectorNilUsesHelmValues: false
+    retention: 90d
+    walCompression: true
+    replicas: 3
+    logLevel: info
+    logFormat: logfmt
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 3Gi
+      requests:
+        cpu: 1000m
+        memory: 3Gi
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "gp3"
+          resources:
+            requests:
+              storage: 10Gi
+extraManifests:
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      name: admin
+    type: Opaque
+    data:
+      auth: YWRtaW4uY2xvdWQ6JGFwcjEkbWI2N2FxOGskdVF5M2d2MGtvSXkwRDdIbTBhQWl3MQ==

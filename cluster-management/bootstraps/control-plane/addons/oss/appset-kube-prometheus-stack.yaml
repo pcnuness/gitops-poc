@@ -1,0 +1,68 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: addon-kube-prometheus-stack
+  namespace: argocd
+  annotations:
+    gitops.plataform/area: monitor
+    gitops.plataform/service: observability
+    gitops.plataform/managed-by: teamplataform
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: false
+  generators:
+    - merge:
+        mergeKeys: [server]
+        generators:
+          - clusters:
+              values:
+                addonChart: kube-prometheus-stack
+                addonChartNamespace: monitoring
+                addonChartVersion: 75.2.0
+                addonChartRepository: https://prometheus-community.github.io/helm-charts
+              selector:
+                matchExpressions:
+                  - key: enable_kube_prometheus_stack
+                    operator: In
+                    values: ['true']
+          - clusters:
+              selector:
+                matchLabels:
+                  environment: staging
+              values:
+                addonChartVersion: 75.1.0
+          - clusters:
+              selector:
+                matchLabels:
+                  environment: production
+              values:
+                addonChartVersion: 75.1.0
+  template:
+    metadata:
+      name: addon-{{values.addonChart}}-{{name}}
+    spec:
+      project: observability
+      sources:
+        - repoURL: '{{metadata.annotations.addons_repo_url}}'
+          targetRevision: '{{metadata.annotations.addons_repo_revision}}'
+          ref: values
+        - chart: '{{values.addonChart}}'
+          repoURL: '{{values.addonChartRepository}}'
+          targetRevision: '{{values.addonChartVersion}}'
+          helm:
+            releaseName: '{{values.addonChart}}'
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - $values/{{metadata.annotations.addons_repo_basepath}}environments/default/addons/{{values.addonChart}}/values.yaml
+              - $values/{{metadata.annotations.addons_repo_basepath}}environments/{{metadata.labels.environment}}/addons/{{values.addonChart}}/values.yaml
+              - $values/{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
+      destination:
+        namespace: '{{values.addonChartNamespace}}'
+        name: '{{name}}'
+      syncPolicy:
+        automated: {}
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true  # Big CRDs.
+          - ApplyOutOfSyncOnly=true
