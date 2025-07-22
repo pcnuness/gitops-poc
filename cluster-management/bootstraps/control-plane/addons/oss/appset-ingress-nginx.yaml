@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addon-ingress-nginx
+  name: addons-ingress-nginx
   namespace: argocd
   annotations:
     gitops.plataform/area: networking

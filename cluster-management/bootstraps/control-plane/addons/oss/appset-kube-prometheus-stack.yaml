@@ -18,8 +18,8 @@ spec:
           - clusters:
               values:
                 addonChart: kube-prometheus-stack
-                # anything not staging or prod use this version
-                addonChartVersion: 72.3.1
+                addonChartNamespace: monitoring
+                addonChartVersion: 75.2.0
                 addonChartRepository: https://prometheus-community.github.io/helm-charts
               selector:
                 matchExpressions:
@@ -31,13 +31,13 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 72.3.0
+                addonChartVersion: 75.1.0
           - clusters:
               selector:
                 matchLabels:
-                  environment: prod
+                  environment: production
               values:
-                addonChartVersion: 72.2.0
+                addonChartVersion: 75.1.0
   template:
     metadata:
       name: addon-{{values.addonChart}}-{{name}}
@@ -58,31 +58,15 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/{{metadata.labels.environment}}/addons/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
             values: |
-              grafana:
-                enabled: true
-                adminPassword: prom-operator
-                ingress:
-                  enabled: true
-                  ingressClassName: nginx
-                  annotations:
-                    nginx.ingress.kubernetes.io/rewrite-target: /
-                  hosts:
-                    - grafana.ops.905418282044.realhandsonlabs.net
-                  paths:
-                    - /
-              prometheus:
-                enabled: true
-                ingress:
-                  enabled: true
-                  ingressClassName: nginx
-                  annotations:
-                    nginx.ingress.kubernetes.io/rewrite-target: /
-                  hosts:
-                    - prometheus.ops.905418282044.realhandsonlabs.net
-                  paths:
-                    - /
+              settings:
+                clusterName: {{metadata.annotations.aws_cluster_name}}
+                interruptionQueueName: {{metadata.annotations.karpenter_sqs_queue_name}}
+                clusterEndpoint: {{metadata.annotations.aws_cluster_endpoint}}
+              serviceAccount:
+                annotations:
+                  eks.amazonaws.com/role-arn: {{metadata.annotations.karpenter_iam_role_arn}}
       destination:
-        namespace: '{{values.addonChart}}'
+        namespace: '{{values.addonChartNamespace}}'
         name: '{{name}}'
       syncPolicy:
         automated: {}
