@@ -69,3 +69,5 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true  # Big CRDs.
           - ApplyOutOfSyncOnly=true
+      dependsOn:
+        - addons-aws-load-balancer-controller
