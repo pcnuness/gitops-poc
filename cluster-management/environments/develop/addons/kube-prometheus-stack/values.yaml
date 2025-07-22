@@ -32,7 +32,7 @@ alertmanager:
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
-              storage: 32Gi
+              storage: 10Gi
     resources:
       limits:
         cpu: 200m
@@ -296,7 +296,7 @@ prometheus:
           storageClassName: "gp3"
           resources:
             requests:
-              storage: 56Gi
+              storage: 10Gi
 extraManifests:
   - apiVersion: v1
     kind: Secret
