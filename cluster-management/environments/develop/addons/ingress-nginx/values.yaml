@@ -9,3 +9,10 @@ controller:
   podAnnotations:
     prometheus.io/port: "10254"
     prometheus.io/scrape: "true"
+  resources:
+    limits:
+      cpu: 512m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 90Mi
