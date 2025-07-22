@@ -16,5 +16,7 @@ controller:
     requests:
       cpu: 100m
       memory: 90Mi
+  nodeSelector:
+    kubernetes.io/os: linux
   affinity: {}
   topologySpreadConstraints: []
