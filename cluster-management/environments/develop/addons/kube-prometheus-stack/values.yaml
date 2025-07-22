@@ -28,7 +28,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: ebs-gp3
+          storageClassName: gp3
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
@@ -83,7 +83,7 @@ grafana:
   persistence:
     enabled: true
     type: pvc
-    storageClassName: "ebs-gp3"
+    storageClassName: "gp3"
     accessModes:
       - ReadWriteOnce
     size: 32Gi
@@ -293,7 +293,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: ebs-gp3
+          storageClassName: gp3
           resources:
             requests:
               storage: 256Gi
