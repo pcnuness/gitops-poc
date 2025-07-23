@@ -262,7 +262,7 @@ prometheus:
     ingressClassName: nginx
     annotations:
       nginx.ingress.kubernetes.io/auth-realm: "Auth Required - Monitoring"
-      nginx.ingress.kubernetes.io/auth-secret: "admin-cloud"
+      nginx.ingress.kubernetes.io/auth-secret: "admin"
       nginx.ingress.kubernetes.io/auth-type: "basic"
     hosts:
       - prometheus.637423598458.realhandsonlabs.net
