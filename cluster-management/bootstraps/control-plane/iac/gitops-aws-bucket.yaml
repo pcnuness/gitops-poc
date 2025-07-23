@@ -24,9 +24,9 @@ spec:
           - clusters:
               selector:
                 matchExpressions:
-                  - key: enable_iac_aws_bucket
+                  - key: environment
                     operator: In
-                    values: ['true']
+                    values: ["{{values.environment}}"]
   template:
     metadata:
       name: "iac-aws-bucket-{{values.src_name}}-{{values.app_name}}-{{values.environment}}-{{name}}"
