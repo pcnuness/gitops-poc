@@ -9,8 +9,8 @@ image:
 # Recursos do pod principal do Crossplane
 resourcesCrossplane:
   limits:
-    cpu: "500m"
-    memory: "1024Mi"
+    cpu: "100m"
+    memory: "512Mi"
   requests:
     cpu: "100m"
     memory: "256Mi"
