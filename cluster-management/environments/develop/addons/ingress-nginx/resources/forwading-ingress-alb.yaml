@@ -10,8 +10,8 @@ metadata:
     alb.ingress.kubernetes.io/scheme: "internet-facing"
     alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=600
     alb.ingress.kubernetes.io/target-type: "instance"
-    alb.ingress.kubernetes.io/subnets: subnet-0632cb1f9c96b97b2,subnet-03084ff8a28b1140f,subnet-0d878d1037e279c7d
-    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-1:381492233961:certificate/12668263-c51f-417e-89fe-5f6d62e5c111"
+    alb.ingress.kubernetes.io/subnets: subnet-0b4e92b4218551beb,subnet-044de8d7c0754325f,subnet-097ec816ad9724dff
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-1:381492130036:certificate/8ef417ce-d46f-4a86-8078-3297c3c034e0"
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80,"HTTPS": 443}]'
     alb.ingress.kubernetes.io/healthcheck-path: "/"
     alb.ingress.kubernetes.io/success-codes: "200,404"
