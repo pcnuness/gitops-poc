@@ -5,7 +5,12 @@ metadata:
   name: 590184126528-crossplane-bucket
   namespace: iac-bucket
 spec:
-  forProvider:
-    region: us-east-1
   providerConfigRef:
     name: crossplane
+  forProvider:
+    region: us-east-1
+    tags:
+      - key: environment
+        value: develop
+      - key: project
+        value: crossplane-test
