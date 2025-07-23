@@ -14,7 +14,7 @@ spec:
         generators:
           - git:
               repoURL: https://github.com/pcnuness/gitops-poc.git
-              targetRevision: develop
+              Revision: develop
               files:
                 - path: "cluster-management/environment/*/iac/*/*/values.yaml"
               values:
@@ -41,6 +41,9 @@ spec:
     spec:
       project: iac-aws-bucket-{{values.src_name}}-{{values.environment}}
       source:
+        - repoURL: '{{metadata.annotations.addons_repo_url}}'
+          targetRevision: '{{metadata.annotations.addons_repo_revision}}'
+          ref: values
         - repoURL: '{{metadata.annotations.addons_repo_url}}'
           targetRevision: '{{metadata.annotations.addons_repo_revision}}'
           path: '{{metadata.annotations.addons_repo_basepath}}environments/{{values.environment}}/iac/{{values.src_name}}/{{values.app_name}}'
