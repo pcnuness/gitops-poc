@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: "forwarding-ingress-nginx"
+  name: "ingress-nginx-forwarding-alb"
   namespace: "ingress-nginx"
   labels:
-    app: "forwarding-ingress-nginx"
+    app: "ingress-nginx-forwarding-alb"
   annotations:
     alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
     alb.ingress.kubernetes.io/scheme: "internet-facing"
     alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=600
     alb.ingress.kubernetes.io/target-type: "instance"
-    alb.ingress.kubernetes.io/subnets: subnet-03c3589bb9adddd4f,subnet-0e71898d513d3be59,subnet-0a9853ae99c38ac2e
-    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-1:637423598458:certificate/d0a97771-5d49-44c7-b9b7-4ec4b799071a"
+    alb.ingress.kubernetes.io/subnets: subnet-0632cb1f9c96b97b2,subnet-03084ff8a28b1140f,subnet-0d878d1037e279c7d
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-1:381492233961:certificate/12668263-c51f-417e-89fe-5f6d62e5c111"
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80,"HTTPS": 443}]'
     alb.ingress.kubernetes.io/healthcheck-path: "/"
     alb.ingress.kubernetes.io/success-codes: "200,404"
