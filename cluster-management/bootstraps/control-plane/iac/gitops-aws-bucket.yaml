@@ -27,9 +27,6 @@ spec:
                   - key: enable_iac_aws_bucket
                     operator: In
                     values: ['true']
-                  - key: environment
-                    operator: In
-                    values: ["{{values.environment}}"]
   template:
     metadata:
       name: "iac-aws-bucket-{{values.src_name}}-{{values.app_name}}-{{values.environment}}-{{name}}"
