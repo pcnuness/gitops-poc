@@ -32,14 +32,14 @@ spec:
                     values: ["{{values.environment}}"]
   template:
     metadata:
-      name: "iac-aws-bucket-{{values.environment}}-{{name}}"
+      name: "iac-aws-bucket-{{values.src_name}}-{{values.app_name}}-{{values.environment}}-{{name}}"
       labels:
         gitops.plataform/environment: '{{values.environment}}'
         gitops.plataform/src: '{{values.src_name}}'
         gitops.plataform/app: '{{values.app_name}}'
         gitops.plataform/cluster: '{{name}}'
     spec:
-      project: iac-aws-bucket-{{values.src_name}}-{{values.environment}}
+      project: iac-aws-bucket-{{values.environment}}
       source:
         repoURL: '{{metadata.annotations.addons_repo_url}}'
         targetRevision: '{{metadata.annotations.addons_repo_revision}}'
