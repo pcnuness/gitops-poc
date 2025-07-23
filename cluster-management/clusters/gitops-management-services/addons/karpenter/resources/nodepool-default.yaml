@@ -26,15 +26,14 @@ spec:
         - key: kubernetes.io/os
           operator: In
           values: ["linux"]
-        - key: karpenter.k8s.aws/instance-category
+        - key: karpenter.k8s.aws/instance-family
           operator: In
-          values: ["t"]
-        - key: karpenter.k8s.aws/instance-generation
+          values:
+            - t3a
+        - key: karpenter.k8s.aws/instance-size
           operator: In
-          values: ["4"]
-        - key: karpenter.k8s.aws/instance-cpu
-          operator: In
-          values: ["4"]
+          values:
+            - medium
         - key: topology.kubernetes.io/zone
           operator: In
           values: ["us-east-1a", "us-east-1b", "us-east-1c"]
