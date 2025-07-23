@@ -1,6 +1,6 @@
 replicaCount: 1
 rbacManager:
-  replicaCount: 1
+  replicaCount: 2
   resources:
     limits:
       cpu: "100m"
