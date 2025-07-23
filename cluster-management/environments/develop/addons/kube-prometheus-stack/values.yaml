@@ -65,7 +65,7 @@ grafana:
     enabled: true
     ingressClassName: nginx
     hosts:
-      - grafana.637423598458.realhandsonlabs.net
+      - grafana.381492130036.realhandsonlabs.net
   resources:
     limits:
       cpu: 100m
@@ -265,7 +265,7 @@ prometheus:
       nginx.ingress.kubernetes.io/auth-secret: "admin"
       nginx.ingress.kubernetes.io/auth-type: "basic"
     hosts:
-      - prometheus.637423598458.realhandsonlabs.net
+      - prometheus.381492130036.realhandsonlabs.net
   serviceMonitor:
     selfMonitor: true
   prometheusSpec:
