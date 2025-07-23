@@ -35,7 +35,7 @@ spec:
                 addonChartVersion: 1.19.0
   template:
     metadata:
-      name: addon-{{values.addonChart}}-{{name}}
+      name: addon-oss-{{values.addonChart}}-{{name}}
     spec:
       project: cluster-management
       sources:
