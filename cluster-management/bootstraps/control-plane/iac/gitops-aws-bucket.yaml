@@ -32,7 +32,7 @@ spec:
                     values: ["{{values.environment}}"]
   template:
     metadata:
-      name: "default"
+      name: "iac-aws-bucket-{{values.environment}}-{{name}}"
       labels:
         gitops.plataform/environment: '{{values.environment}}'
         gitops.plataform/src: '{{values.src_name}}'
