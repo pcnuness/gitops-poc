@@ -55,7 +55,6 @@ spec:
             values: |
               serviceAccount:
                 create: true
-                name: {{metadata.annotations.crossplane_service_account}}
                 customAnnotations:
                   eks.amazonaws.com/role-arn: {{metadata.annotations.crossplane_iam_role_arn}}
       destination:
