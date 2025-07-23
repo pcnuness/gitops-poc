@@ -14,7 +14,7 @@ spec:
   source:
     repoURL: https://github.com/pcnuness/gitops-poc.git
     targetRevision: develop
-    path: bootstraps/control-plane/production
+    path: application-management/bootstraps/control-plane/production
     directory:
       recurse: true
   destination:
