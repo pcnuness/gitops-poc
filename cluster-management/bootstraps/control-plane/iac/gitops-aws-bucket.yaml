@@ -41,9 +41,9 @@ spec:
     spec:
       project: iac-aws-bucket-{{values.src_name}}-{{values.environment}}
       source:
-        - repoURL: '{{metadata.annotations.addons_repo_url}}'
-          targetRevision: '{{metadata.annotations.addons_repo_revision}}'
-          path: '{{metadata.annotations.addons_repo_basepath}}environments/{{values.environment}}/iac/{{values.src_name}}/{{values.app_name}}'
+        repoURL: '{{metadata.annotations.addons_repo_url}}'
+        targetRevision: '{{metadata.annotations.addons_repo_revision}}'
+        path: '{{metadata.annotations.addons_repo_basepath}}environments/{{values.environment}}/iac/{{values.src_name}}/{{values.app_name}}'
       destination:
         name: '{{name}}'
         namespace: iac-aws-{{values.src_name}}
