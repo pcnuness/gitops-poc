@@ -1,6 +1,7 @@
 # Quantidade de réplicas do pod Crossplane
 replicas: 1
-rbacManager.replicas: 2
+rbacManager:
+  replicas: 2
 
 # Imagem e política de pull
 image:
