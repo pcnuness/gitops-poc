@@ -26,9 +26,7 @@ resourcesRBACManager:
 
 # Desativa webhooks (útil em clusters restritos)
 webhooks:
-  enabled: false
-  patch:
-    enabled: false
+  enabled: true
 
 # Desativa os recursos de métrica (opcional)
 metrics:
