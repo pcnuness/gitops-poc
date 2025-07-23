@@ -64,7 +64,7 @@ spec:
     - deviceName: /dev/xvda
       ebs:
         volumeType: gp3
-        volumeSize: 10Gi
+        volumeSize: 20Gi
         encrypted: true
         deleteOnTermination: true
   subnetSelectorTerms:
