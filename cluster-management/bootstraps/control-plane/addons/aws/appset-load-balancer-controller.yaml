@@ -7,7 +7,8 @@ metadata:
   annotations:
     gitops.plataform/area: networking
     gitops.plataform/service: netwok-egress
-    gitops.plataform/managed-by: teamplataform
+    gitops.plataform/component: network-core
+    gitops.plataform/managed-by: plataform-team
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: false

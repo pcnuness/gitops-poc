@@ -3,6 +3,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: addons-oss-metrics-server
+  namespace: argocd
+  annotations:
+    gitops.plataform/area: monitoring
+    gitops.plataform/service: observability
+    gitops.plataform/component: monitor-metrics
+    gitops.plataform/managed-by: plataform-team
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
