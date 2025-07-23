@@ -1,0 +1,44 @@
+---
+fullnameOverride: karpenter
+replicas: 3
+serviceMonitor:
+  enabled: false
+revisionHistoryLimit: 10
+strategy:
+  rollingUpdate:
+    maxUnavailable: 1
+podDisruptionBudget:
+  name: karpenter
+  maxUnavailable: 1
+controller:
+  resources:
+    limits:
+      cpu: 250m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 258Mi
+webhook:
+  enabled: false
+logLevel: info
+tolerations:
+  - key: CriticalAddonsOnly
+    operator: Equal
+    value: "true"
+    effect: PreferNoSchedule
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: cpe.plataform.com/node-group
+              operator: In
+              values:
+                - critical-addons
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: karpenter

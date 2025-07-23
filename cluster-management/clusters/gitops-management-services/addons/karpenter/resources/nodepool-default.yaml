@@ -1,0 +1,90 @@
+---
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: application-default
+  annotations:
+    kubernetes.io/description: NodePool used to run general application workloads
+spec:
+  template:
+    metadata:
+      labels:
+        gitops.plataform/arch: amd64
+        gitops.plataform/area: app
+        gitops.plataform/service: general
+        gitops.plataform/component: worknode
+        gitops.plataform/cost-center: servicos-digitais
+        gitops.plataform/node-group: application-default
+        gitops.plataform/managed-by: plataform-team
+        gitops.plataform/workload-sla: medium
+    spec:
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: application-default
+      requirements:
+        - key: kubernetes.io/os
+          operator: In
+          values: ["linux"]
+        - key: karpenter.k8s.aws/instance-category
+          operator: In
+          values: ["t", "m"]
+        - key: karpenter.k8s.aws/instance-generation
+          operator: In
+          values: ["4", "5", "6"]
+        - key: karpenter.k8s.aws/instance-cpu
+          operator: In
+          values: ["4", "8"]
+        - key: karpenter.k8s.aws/instance-memory
+          operator: In
+          values: ["16384", "32768"]
+        - key: topology.kubernetes.io/zone
+          operator: In
+          values: ["us-east-1a", "us-east-1b", "us-east-1c"]
+        - key: kubernetes.io/arch
+          operator: In
+          values: ["amd64", "x86"]
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["spot"]
+  limits:
+    cpu: "400"
+    memory: "600Gi"
+  disruption:
+    consolidationPolicy: WhenEmptyOrUnderutilized
+    consolidateAfter: 2m
+---
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: application-default
+spec:
+  amiFamily: AL2023
+  amiSelectorTerms:
+    - alias: al2023@latest
+  role: gitops-management-services-karpenter-node-irsa
+  detailedMonitoring: true
+  blockDeviceMappings:
+    - deviceName: /dev/xvda
+      ebs:
+        volumeType: gp3
+        volumeSize: 10Gi
+        encrypted: true
+        deleteOnTermination: true
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: gitops-management-services
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: gitops-management-services
+  tags:
+    Name: eks-worknodes-application-default
+    karpenter.sh/discovery: gitops-management-services
+    gitops.plataform/arch: amd64
+    gitops.plataform/area: app
+    gitops.plataform/service: core
+    gitops.plataform/component: frontend
+    gitops.plataform/cost-center: servicos-digitais
+    gitops.plataform/node-group: application-default
+    gitops.plataform/managed-by: plataform-team
+    gitops.plataform/workload-sla: medium
