@@ -1,11 +1,12 @@
+---
 apiVersion: s3.aws.upbound.io/v1beta1
 kind: Bucket
 metadata:
-  name: 590184126528-my-first-bucket
+  name: 590184126528-crossplane-bucket-
   namespace: iac-bucket
 spec:
   forProvider:
     locationConstraint: us-east-1
     acl: private
   providerConfigRef:
-    name: aws-provider-irsa
+    name: crossplane
