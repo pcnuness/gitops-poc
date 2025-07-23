@@ -40,27 +40,24 @@ argocd cluster add arn:aws:eks:us-east-1:590183702475:cluster/eks-infa-ops-servi
   --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc.git
 ```
 
-argocd cluster add arn:aws:eks:us-east-1:381492233961:cluster/gitops-management-services \
+argocd cluster add arn:aws:eks:us-east-1:590184126528:cluster/gitops-management-services \
   --name gitops-management-services \
-  --label enable_aws_ebs_csi_resources=false \
   --label enable_aws_load_balancer_controller=false \
   --label enable_ingress_nginx=false \
-  --label enable_kube_prometheus_stack=false \
-  --label enable_metrics_server=false \
   --label environment=develop \
   --annotation addons_repo_basepath=cluster-management/ \
   --annotation addons_repo_revision=develop \
   --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc \
   --annotation aws_cluster_name=gitops-management-services \
-  --annotation aws_load_balancer_controller_iam_role_arn=arn:aws:iam::381492233961:role/gitops-management-services-aws-load-balancer-controller-irsa \
+  --annotation aws_load_balancer_controller_iam_role_arn=arn:aws:iam::590184126528:role/gitops-management-services-aws-load-balancer-controller-irsa \
   --annotation aws_load_balancer_controller_namespace=kube-system \
   --annotation aws_load_balancer_controller_service_account=aws-load-balancer-controller \
-  --annotation aws_vpc_id=vpc-
+  --annotation aws_vpc_id=vpc-00a842400d3bcdf98
 
 
 # Commands
 
-export AWS_ACCESS_KEY_ID="AKI"          
-export AWS_SECRET_ACCESS_KEY="HiC"
+export AWS_ACCESS_KEY_ID="AKIA"          
+export AWS_SECRET_ACCESS_KEY="5YV"
 
 kubectl config use-context kind-argocd-main

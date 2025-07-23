@@ -1,4 +1,7 @@
 
+Arquitetura de Multi Environment com GitOps
+
+### Descrição Geral
 
 O repositório implementa uma estrutura GitOps modular para gerenciar add‑ons em múltiplos clusters Kubernetes. O cluster-management/README.md apresenta a organização do código:
 
@@ -29,6 +32,18 @@ Arquivos de ambiente demonstram a customização de add-ons, como o metrics-serv
 Para Observabilidade, o ApplicationSet do kube-prometheus-stack é configurado de modo condicional por labels (por exemplo, enable_kube_prometheus_stack) e define versão, repositório e namespace do chart.
 
 O arquivo BACKLOG.md lista próximos passos, como habilitar monitoramento dos control planes, criar estrutura adicional de Helm charts (ex. base-resources) e ativar o AlertManager com regras personalizadas.
+
+
+### Proposta
+
+Detalha uma **arquitetura multi environment** que adota GitOps utilizando o ArgoCD para centralização das operações de IaC. 
+
+O Clusters são configurados para integração automática com a AWS usando o crossplane, possibilitando implantação e sincronização de recursos na AWS (EC2, VPC, Route 53, EKS etc).
+
+1. Objetivos:
+   - Centralizar operações de GitOps com ArgoCD.
+   - Provisionar workloads para clientes usando um repositório base que inclui ArgoCD e crossplane.
+   - Garantir um ArgoCD realize o gerenciamento e criação de recursos utilizando o crossplane.
 
 Arvore da minha estrutura de arquivos cluster-management
 
