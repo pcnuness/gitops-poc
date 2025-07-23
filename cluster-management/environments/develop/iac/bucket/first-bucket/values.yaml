@@ -9,8 +9,3 @@ spec:
     name: crossplane
   forProvider:
     region: us-east-1
-    tags:
-      - key: environment
-        value: develop
-      - key: project
-        value: crossplane-test

@@ -1,5 +1,4 @@
 replicaCount: 1
-
 rbacManager:
   replicaCount: 1
   resources:
@@ -9,10 +8,8 @@ rbacManager:
     requests:
       cpu: "100m"
       memory: "256Mi"
-
 image:
   pullPolicy: Always
-
 resources:
   limits:
     cpu: "100m"
@@ -20,29 +17,21 @@ resources:
   requests:
     cpu: "100m"
     memory: "256Mi"
-
 webhooks:
   enabled: true
-
 metrics:
   enabled: false
-
 args:
   - "--enable-composition-webhook-schema-validation"
   - "--registry=registry.upbound.io"
-
-logLevel: info
-
+logLevel: debug
 podLabels:
   app.kubernetes.io/managed-by: "helm"
-
 extraEnvVars:
   - name: AWS_REGION
     value: "us-east-1"
-
 providerPackages:
   - xpkg.upbound.io/upbound/provider-aws:v1.4.0
   - xpkg.upbound.io/upbound/provider-helm:v0.16.0
-
 configurationPackages:
   - xpkg.upbound.io/upbound/configuration-aws:v0.3.0
