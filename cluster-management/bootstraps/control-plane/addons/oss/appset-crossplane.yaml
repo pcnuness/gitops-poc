@@ -54,6 +54,7 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}environments/clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
             values: |
               serviceAccount:
+                create: true
                 name: {{metadata.annotations.crossplane_aws_service_account}}
                 annotations:
                   eks.amazonaws.com/role-arn: {{metadata.annotations.crossplane_iam_role_arn}}
