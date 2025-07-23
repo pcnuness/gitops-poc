@@ -1,0 +1,32 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bootstrap-gitops-app-appset-no-production
+  namespace: argocd
+  annotations:
+    gitops.plataform/area: devops
+    gitops.plataform/service: gitops
+    gitops.plataform/managed-by: plataform-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pcnuness/gitops-poc.git
+    targetRevision: develop
+    path: application-management/bootstraps/control-plane/no-production
+    directory:
+      recurse: true
+  destination:
+    namespace: argocd
+    name: in-cluster
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
