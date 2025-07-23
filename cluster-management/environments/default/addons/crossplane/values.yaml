@@ -38,7 +38,7 @@ provider:
     - package: xpkg.upbound.io/upbound/provider-aws:v1.4.0
       runtimeConfigRef:
         name: aws-runtime-config
-    - package: xpkg.upbound.io/upbound/provider-helm:v0.16.0
+    - package: xpkg.upbound.io/upbound/provider-helm:v0.20.0
 
 configuration:
   packages:
