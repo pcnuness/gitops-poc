@@ -67,3 +67,5 @@ spec:
         syncOptions:
           - CreateNamespace=true
           - ServerSideApply=true  # Big CRDs.
+      dependsOn:
+        - addon-oss-kube-prometheus-stack
