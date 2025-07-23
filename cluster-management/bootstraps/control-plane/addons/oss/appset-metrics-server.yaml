@@ -68,4 +68,4 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true  # Big CRDs.
       dependsOn:
-        - addon-kube-prometheus-stack
+        - addon-oss-kube-prometheus-stack
