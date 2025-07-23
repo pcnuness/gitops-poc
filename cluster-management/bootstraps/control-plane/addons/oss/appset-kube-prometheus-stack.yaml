@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addon-oss-kube-prometheus-stack
+  name: addons-oss-kube-prometheus-stack
   namespace: argocd
   annotations:
     gitops.plataform/area: monitoring
