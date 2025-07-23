@@ -1,20 +1,68 @@
 
 
-Arvore da minha estrutura de arquivos
+O repositório implementa uma estrutura GitOps modular para gerenciar add‑ons em múltiplos clusters Kubernetes. O cluster-management/README.md apresenta a organização do código:
 
-├── bootstrap
-│   └── control-plane
-│       ├── addons
-│       │   ├── aws
-│       │   │   └── appset-fluentbit.yaml
-│       │   └── oss
-│       │       ├── appset-kube-prometheus-stack.yaml
-│       │       └── appset-metrics-server.yaml
-│       └── argocd-config
-│           └── projects
-│               └── observability
-│                   ├── kustomization.yaml
-│                   └── project.yaml
+Estrutura principal contendo bootstraps, charts, clusters, environments e scripts
+
+Bootstrap inicial do ArgoCD e projetos por meio de manifests em cluster-init e control-plane
+
+Helm chart genérico em charts/resources/ para criação de recursos reutilizáveis em diversos clusters
+
+Pastas para configurações específicas de clusters (por exemplo, cpe-operation) e de ambientes (default, develop)
+
+Scripts auxiliares para criação de novos clusters e validação de manifests
+
+O fluxo de bootstrapping é descrito no mesmo arquivo: aplicar os manifestos de cluster-init, sincronizar o gitops-root.yaml e, por meio de ApplicationSets, propagar os manifests contidos em environments, clusters e charts.
+
+A raiz do repositório contém orientações adicionais e sugestões de melhoria, como:
+
+Criar subdiretórios de workloads (monitoring, security, networking, finops)
+
+Manter versionamento semântico nos charts e adicionar testes automatizados para validá-los
+
+Implantar herança de configurações entre ambientes (base → dev → staging → prod) e uso de Kustomize para gerenciar diferenças
+
+Implementar rotulagem de clusters por região ou tipo de workload
+
+Arquivos de ambiente demonstram a customização de add-ons, como o metrics-server e o ingress-nginx, configurados para expor métricas e rodar com características específicas (ex: uso de AWS NLB).
+
+Para Observabilidade, o ApplicationSet do kube-prometheus-stack é configurado de modo condicional por labels (por exemplo, enable_kube_prometheus_stack) e define versão, repositório e namespace do chart.
+
+O arquivo BACKLOG.md lista próximos passos, como habilitar monitoramento dos control planes, criar estrutura adicional de Helm charts (ex. base-resources) e ativar o AlertManager com regras personalizadas.
+
+Arvore da minha estrutura de arquivos cluster-management
+
+cluster-management
+├── README.md
+├── bootstraps
+│   ├── cluster-init
+│   │   ├── bootstrap-app-argocd-projects.yaml
+│   │   ├── bootstrap-app-controle-plane-aws.yaml
+│   │   └── bootstrap-app-controle-plane-oss.yaml
+│   ├── control-plane
+│   │   ├── addons
+│   │   │   ├── aws
+│   │   │   │   ├── appset-csi-ebs-resources.yaml
+│   │   │   │   ├── appset-csi-efs-driver.yaml
+│   │   │   │   ├── appset-fluentbit.yaml
+│   │   │   │   ├── appset-load-balancer-controller.yaml
+│   │   │   │   └── appset-node-termination-handler.yaml
+│   │   │   └── oss
+│   │   │       ├── addons-aws-oss-cert-manager-appset.yaml
+│   │   │       ├── appset-argocd-ingress.yaml
+│   │   │       ├── appset-cert-manager.yaml
+│   │   │       ├── appset-crossplane.yaml
+│   │   │       ├── appset-external-dns.yaml
+│   │   │       ├── appset-external-secrets.yaml
+│   │   │       ├── appset-ingress-nginx.yaml
+│   │   │       ├── appset-karpenter.yaml
+│   │   │       ├── appset-kube-prometheus-stack.yaml
+│   │   │       ├── appset-metrics-server.yaml
+│   │   │       ├── appset-prometheus-adapter.yaml
+│   │   │       └── appset-velero.yaml
+│   │   └── argocd-config
+│   │       └── apps-projects.yaml
+│   └── gitops-root.yaml
 ├── charts
 │   └── resources
 │       ├── Chart.yaml
@@ -22,16 +70,31 @@ Arvore da minha estrutura de arquivos
 │       │   └── resources.yaml
 │       └── values.yaml
 ├── clusters
-│   └── cpe-operation
+│   └── gitops-management-services
 │       └── addons
 │           ├── crossplane
-│           └── kube-prometheus-stack
-├── environment
+│           └── karpenter
+│               ├── resources
+│               │   └── nodepool-default.yaml
+│               └── values.yaml
+├── environments
+│   ├── default
+│   │   └── addons
+│   │       ├── aws-ebs-csi-classes
+│   │       │   └── values.yaml
+│   │       └── metrics-server
+│   │           └── values.yaml
 │   └── develop
-│       └── kube-prometheus-stack
-│           └── values.yaml
+│       └── addons
+│           ├── aws-load-balancer-controller
+│           │   └── values.yaml
+│           ├── ingress-nginx
+│           │   ├── resources
+│           │   │   └── forwading-ingress-alb.yaml
+│           │   └── values.yaml
+│           └── kube-prometheus-stack
+│               └── values.yaml
 └── scripts
     ├── create_new_cluster.sh
     └── validate_manifests.sh
-
-21 directories, 11 files
+29 directories, 36 files

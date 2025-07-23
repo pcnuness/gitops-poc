@@ -55,7 +55,7 @@ argocd cluster add arn:aws:eks:us-east-1:381492233961:cluster/gitops-management-
   --annotation aws_load_balancer_controller_iam_role_arn=arn:aws:iam::381492233961:role/gitops-management-services-aws-load-balancer-controller-irsa \
   --annotation aws_load_balancer_controller_namespace=kube-system \
   --annotation aws_load_balancer_controller_service_account=aws-load-balancer-controller \
-  --annotation aws_vpc_id=vpc-xxx
+  --annotation aws_vpc_id=vpc-
 
 
 # Commands
