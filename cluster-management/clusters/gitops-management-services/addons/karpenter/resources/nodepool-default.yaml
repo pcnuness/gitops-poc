@@ -39,9 +39,6 @@ spec:
         - key: kubernetes.io/arch
           operator: In
           values: ["amd64", "x86"]
-        - key: karpenter.sh/capacity-type
-          operator: In
-          values: ["on-demand"]
   limits:
     cpu: "400"
     memory: "600Gi"
