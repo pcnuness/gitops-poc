@@ -1,13 +1,19 @@
-# Quantidade de réplicas do pod Crossplane
-replicas: 1
-rbacManager.replicas: 1
+replicaCount: 1
 
-# Imagem e política de pull
+rbacManager:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: "100m"
+      memory: "512Mi"
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+
 image:
   pullPolicy: Always
 
-# Recursos do pod principal do Crossplane
-resourcesCrossplane:
+resources:
   limits:
     cpu: "100m"
     memory: "512Mi"
@@ -15,49 +21,28 @@ resourcesCrossplane:
     cpu: "100m"
     memory: "256Mi"
 
-# Recursos do pod RBAC Manager
-resourcesRBACManager:
-  limits:
-    cpu: "100m"
-    memory: "512Mi"
-  requests:
-    cpu: "100m"
-    memory: "256Mi"
-
-# Desativa webhooks (útil em clusters restritos)
 webhooks:
   enabled: true
 
-# Desativa os recursos de métrica (opcional)
 metrics:
   enabled: false
 
-# Pacotes a serem instalados automaticamente
-provider:
-  packages:
-    - xpkg.upbound.io/upbound/provider-aws:v1.4.0
-    - xpkg.upbound.io/upbound/provider-helm:v0.16.0
-
-configuration:
-  packages:
-    - xpkg.upbound.io/upbound/configuration-aws:v0.3.0
-
-# Argumentos extras para o Crossplane Controller
 args:
   - "--enable-composition-webhook-schema-validation"
   - "--registry=registry.upbound.io"
 
-# Variáveis de ambiente adicionais
-extraEnvVarsCrossplane:
-  AWS_REGION: "us-east-1"
-
-# Ativa logs em nível info
 logLevel: info
 
-# Labels adicionais (se quiser controlar por GitOps, por ex.)
 podLabels:
   app.kubernetes.io/managed-by: "helm"
 
-# Affinity, tolerations e outros ajustes podem ser ativados se necessário
-# affinity: {}
-# tolerations: []
+extraEnvVars:
+  - name: AWS_REGION
+    value: "us-east-1"
+
+providerPackages:
+  - xpkg.upbound.io/upbound/provider-aws:v1.4.0
+  - xpkg.upbound.io/upbound/provider-helm:v0.16.0
+
+configurationPackages:
+  - xpkg.upbound.io/upbound/configuration-aws:v0.3.0
