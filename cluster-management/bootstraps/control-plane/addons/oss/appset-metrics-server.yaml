@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-metrics-server
+  name: addons-oss-metrics-server
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
@@ -36,7 +36,7 @@ spec:
                 addonChartVersion: 3.13.0
   template:
     metadata:
-      name: addon-{{values.addonChart}}-{{name}}
+      name: addon-oss-{{values.addonChart}}-{{name}}
     spec:
       project: observability
       sources:
