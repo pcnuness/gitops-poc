@@ -5,7 +5,9 @@ metadata:
   name: default
 spec:
   credentials:
-    source: IRSA
+    source: WebIdentity
+    webIdentity:
+      roleARN: "arn:aws:iam::381491847637:role/gitops-management-services-crossplane-irsa"
 ---
 apiVersion: s3.aws.upbound.io/v1beta1
 kind: Bucket
