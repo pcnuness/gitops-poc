@@ -1,8 +1,9 @@
 ---
-apiVersion: aws.crossplane.io/v1beta1
+apiVersion: aws.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
-  name: aws-provider-irsa
+  name: default
 spec:
+  region: us-east-1
   credentials:
-    source: InjectedIdentity
+    source: IRSA
