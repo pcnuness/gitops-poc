@@ -6,6 +6,6 @@ metadata:
   namespace: iac-bucket
 spec:
   providerConfigRef:
-    name: crossplane
+    name: default
   forProvider:
     region: us-east-1
