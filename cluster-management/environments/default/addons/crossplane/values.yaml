@@ -38,8 +38,9 @@ configuration:
 
 # Argumentos extras para o Crossplane Controller
 args:
-  - "--enable-composition-webhook-schema-validation"
+  - "--enable-realtime-compositions"
   - "--registry=registry.upbound.io"
+  - "--enable-composition-webhook-schema-validation"
 
 # Variáveis de ambiente adicionais
 extraEnvVarsCrossplane:
