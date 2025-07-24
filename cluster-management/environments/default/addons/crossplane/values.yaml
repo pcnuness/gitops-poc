@@ -1,13 +1,5 @@
 # Quantidade de réplicas do pod Crossplane
-replicas: 1
-rbacManager:
-  replicas: 2
-
-# Imagem e política de pull
-image:
-  pullPolicy: Always
-
-# Recursos do pod principal do Crossplane
+replicas: 2
 resourcesCrossplane:
   limits:
     cpu: "100m"
@@ -15,8 +7,8 @@ resourcesCrossplane:
   requests:
     cpu: "100m"
     memory: "256Mi"
-
-# Recursos do pod RBAC Manager
+rbacManager:
+  replicas: 2
 resourcesRBACManager:
   limits:
     cpu: "100m"
@@ -24,15 +16,15 @@ resourcesRBACManager:
   requests:
     cpu: "100m"
     memory: "256Mi"
-
+# Imagem e política de pull
+image:
+  pullPolicy: Always
 # Desativa webhooks (útil em clusters restritos)
 webhooks:
   enabled: true
-
 # Desativa os recursos de métrica (opcional)
 metrics:
   enabled: false
-
 # Pacotes a serem instalados automaticamente
 provider:
   packages:
