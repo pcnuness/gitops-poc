@@ -60,5 +60,9 @@ export AWS_SECRET_ACCESS_KEY="eD09B"
 
 kubectl config use-context kind-argocd-main
 
-
+kubectl create secret generic aws-creds-crossplane \     
+  -n crossplane-system \
+  --from-literal=credentials="[default]
+aws_access_key_id = AK
+aws_secret_access_key = eD09B"
 
