@@ -32,11 +32,12 @@ metrics:
 provider:
   packages:
     - xpkg.upbound.io/upbound/provider-aws:v1.4.0
+    - xpkg.upbound.io/upbound/provider-aws-s3:v0.41.0
     - xpkg.upbound.io/upbound/provider-helm:v0.16.0
 
 configuration:
   packages:
-    - xpkg.upbound.io/upbound/configuration-aws:v0.3.0
+    - xpkg.upbound.io/upbound/platform-ref-aws:v1.4.0
 
 # Argumentos extras para o Crossplane Controller
 args:
