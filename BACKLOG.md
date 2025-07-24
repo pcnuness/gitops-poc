@@ -40,31 +40,7 @@ argocd cluster add arn:aws:eks:us-east-1:590183702475:cluster/eks-infa-ops-servi
   --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc.git
 ```
 
-argocd cluster add arn:aws:eks:us-east-1:590184126528:cluster/gitops-management-services \
-  --name gitops-management-services \
-  --label enable_aws_load_balancer_controller=false \
-  --label enable_ingress_nginx=false \
-  --label environment=develop \
-  --annotation addons_repo_basepath=cluster-management/ \
-  --annotation addons_repo_revision=develop \
-  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc \
-  --annotation aws_cluster_name=gitops-management-services \
-  --annotation aws_load_balancer_controller_iam_role_arn=arn:aws:iam::590184126528:role/gitops-management-services-aws-load-balancer-controller-irsa \
-  --annotation aws_load_balancer_controller_namespace=kube-system \
-  --annotation aws_load_balancer_controller_service_account=aws-load-balancer-controller \
-  --annotation aws_vpc_id=vpc-00a842400d3bcdf98
-
-
-# Commands
-
-export AWS_ACCESS_KEY_ID="AKIA"          
-export AWS_SECRET_ACCESS_KEY="5YV"
-
-kubectl config use-context kind-argocd-main
-
-
-
-argocd cluster add arn:aws:eks:us-east-1:590184126528:cluster/gitops-management-services \
+argocd cluster add arn:aws:eks:us-east-1:381491847637:cluster/gitops-management-services \
   --name gitops-develop \
   --label enable_crossplane=true \
   --label environment=develop \
@@ -72,6 +48,17 @@ argocd cluster add arn:aws:eks:us-east-1:590184126528:cluster/gitops-management-
   --annotation addons_repo_revision=develop \
   --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc \
   --annotation aws_cluster_name=gitops-develop \
-  --annotation crossplane_iam_role_arn=arn:aws:iam::590184126528:role/gitops-management-services-aws-load-balancer-controller-irsa \
-  --annotation crossplane_service_account=default \
-  --annotation aws_vpc_id=vpc-00a842400d3bcdf98
+  --annotation crossplane_iam_role_arn=arn:aws:iam::381491847637:role/gitops-management-services-crossplane-irsa \
+  --annotation crossplane_service_account=default 
+
+wakrUkb9ZWxXzWlo
+
+# Commands
+
+export AWS_ACCESS_KEY_ID="AK"          
+export AWS_SECRET_ACCESS_KEY="eD09B"
+
+kubectl config use-context kind-argocd-main
+
+
+
