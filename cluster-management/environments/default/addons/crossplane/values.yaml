@@ -31,8 +31,8 @@ metrics:
 # Pacotes a serem instalados automaticamente
 provider:
   packages:
-    - xpkg.crossplane.io/crossplane-contrib/provider-aws:v0.39.0
-    - xpkg.crossplane.io/crossplane-contrib/provider-aws-s3:v1.21.1
+    - xpkg.upbound.io/upbound/provider-aws:v1.4.0
+    - xpkg.upbound.io/upbound/provider-helm:v0.16.0
 
 configuration:
   packages:
@@ -40,6 +40,7 @@ configuration:
 
 # Argumentos extras para o Crossplane Controller
 args:
+  - "--registry=registry.upbound.io"
   - "--enable-realtime-compositions"
   - "--enable-deployment-runtime-configs"
   - "--enable-composition-webhook-schema-validation"
