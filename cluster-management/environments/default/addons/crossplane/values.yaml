@@ -3,41 +3,39 @@ image:
   pullPolicy: Always
 
 # Quantidade de réplicas do pod Crossplane
-replicas: 1
-resourcesCrossplane:
-  limits:
-    cpu: "100m"
-    memory: "512Mi"
-  requests:
-    cpu: "100m"
-    memory: "256Mi"
-
-rbacManager:
-  replicas: 2
-resourcesRBACManager:
-  limits:
-    cpu: "200m"
-    memory: "512Mi"
-  requests:
-    cpu: "200m"
-    memory: "256Mi"
-
-# Desativa webhooks (útil em clusters restritos)
-webhooks:
-  enabled: true
-# Desativa os recursos de métrica (opcional)
-metrics:
-  enabled: false
+#replicas: 1
+#resourcesCrossplane:
+#  limits:
+#    cpu: "100m"
+#    memory: "512Mi"
+#  requests:
+#    cpu: "100m"
+#    memory: "256Mi"
+#
+#rbacManager:
+#  replicas: 2
+#resourcesRBACManager:
+#  limits:
+#    cpu: "200m"
+#    memory: "512Mi"
+#  requests:
+#    cpu: "200m"
+#    memory: "256Mi"
+#
+## Desativa webhooks (útil em clusters restritos)
+#webhooks:
+#  enabled: true
+## Desativa os recursos de métrica (opcional)
+#metrics:
+#  enabled: false
 # Pacotes a serem instalados automaticamente
 provider:
   packages:
-    - xpkg.upbound.io/upbound/provider-aws:v1.4.0
-    - xpkg.upbound.io/upbound/provider-aws-s3:v0.41.0
-    - xpkg.upbound.io/upbound/provider-helm:v0.16.0
+    - xpkg.upbound.io/upbound/provider-aws-s3:v1.23.1
 
-configuration:
-  packages:
-    - xpkg.upbound.io/upbound/platform-ref-aws:v1.4.0
+#configuration:
+#  packages:
+#    - xpkg.upbound.io/upbound/platform-ref-aws:v1.4.0
 
 # Argumentos extras para o Crossplane Controller
 args:
@@ -45,10 +43,6 @@ args:
   - "--enable-realtime-compositions"
   - "--enable-deployment-runtime-configs"
   - "--enable-composition-webhook-schema-validation"
-
-# Variáveis de ambiente adicionais
-extraEnvVarsCrossplane:
-  AWS_REGION: "us-east-1"
 
 # Ativa logs em nível info
 logLevel: debug
