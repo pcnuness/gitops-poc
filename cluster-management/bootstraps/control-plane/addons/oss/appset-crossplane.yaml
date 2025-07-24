@@ -61,9 +61,9 @@ spec:
                 name: {{metadata.annotations.crossplane_service_account}}
                 customAnnotations:
                   eks.amazonaws.com/role-arn: {{metadata.annotations.crossplane_iam_role_arn}}
-        #- repoURL: '{{metadata.annotations.addons_repo_url}}'
-        #  targetRevision: '{{metadata.annotations.addons_repo_revision}}'
-        #  path: '{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/resources'
+        - repoURL: '{{metadata.annotations.addons_repo_url}}'
+          targetRevision: '{{metadata.annotations.addons_repo_revision}}'
+          path: '{{metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/resources'
       destination:
         namespace: '{{values.addonChartNamespace}}'
         name: '{{name}}'
