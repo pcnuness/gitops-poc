@@ -1,0 +1,19 @@
+---
+apiVersion: aws.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: IRSA
+---
+apiVersion: s3.aws.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  name: 590184126528-crossplane-bucket
+  namespace: iac-bucket
+spec:
+  providerConfigRef:
+    name: default
+  forProvider:
+    region: us-east-1
