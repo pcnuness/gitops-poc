@@ -9,13 +9,13 @@ resourcesCrossplane:
     memory: "256Mi"
 rbacManager:
   replicas: 2
-resourcesRBACManager:
-  limits:
-    cpu: "100m"
-    memory: "512Mi"
-  requests:
-    cpu: "100m"
-    memory: "256Mi"
+  resources:
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
+    requests:
+      cpu: 200m"
+      memory: "256Mi"
 # Imagem e política de pull
 image:
   pullPolicy: Always
