@@ -46,7 +46,7 @@ extraEnvVarsCrossplane:
   AWS_REGION: "us-east-1"
 
 # Ativa logs em nível info
-logLevel: info
+logLevel: debug
 
 # Labels adicionais (se quiser controlar por GitOps, por ex.)
 podLabels:
