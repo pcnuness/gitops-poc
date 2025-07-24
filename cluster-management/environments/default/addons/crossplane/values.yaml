@@ -1,3 +1,7 @@
+# Imagem e política de pull
+image:
+  pullPolicy: Always
+
 # Quantidade de réplicas do pod Crossplane
 replicas: 1
 resourcesCrossplane:
@@ -7,6 +11,7 @@ resourcesCrossplane:
   requests:
     cpu: "100m"
     memory: "256Mi"
+
 rbacManager:
   replicas: 2
 resourcesRBACManager:
@@ -16,9 +21,7 @@ resourcesRBACManager:
   requests:
     cpu: "200m"
     memory: "256Mi"
-# Imagem e política de pull
-image:
-  pullPolicy: Always
+
 # Desativa webhooks (útil em clusters restritos)
 webhooks:
   enabled: true
@@ -38,7 +41,6 @@ configuration:
 # Argumentos extras para o Crossplane Controller
 args:
   - "--enable-realtime-compositions"
-  - "--registry=registry.upbound.io"
   - "--enable-deployment-runtime-configs"
   - "--enable-composition-webhook-schema-validation"
 
