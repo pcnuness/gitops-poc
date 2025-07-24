@@ -34,9 +34,10 @@ metrics:
   enabled: false
 
 # Pacotes a serem instalados automaticamente
+
 provider:
   packages:
-    - package: xpkg.crossplane.io/crossplane-contrib/provider-aws-s3:v1.21.1
+    - xpkg.crossplane.io/crossplane-contrib/provider-aws-s3:v1.21.1
 
 configuration:
   packages:
