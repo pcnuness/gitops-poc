@@ -3,6 +3,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: addons-oss-crossplane
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: false
