@@ -3,6 +3,8 @@ apiVersion: aws.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   credentials:
     source: WebIdentity
@@ -12,6 +14,8 @@ spec:
 apiVersion: s3.aws.upbound.io/v1beta1
 kind: Bucket
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: 590184126528-crossplane-bucket
   namespace: iac-bucket
 spec:
