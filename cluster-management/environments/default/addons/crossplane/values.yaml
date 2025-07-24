@@ -37,7 +37,7 @@ metrics:
 provider:
   packages:
     - package: xpkg.upbound.io/upbound/provider-family-aws:v0.41.0
-    - package: xpkg.upbound.io/upbound/provider-family-aws:v0.41.0
+    - package: xpkg.upbound.io/upbound/provider-aws-s3:v0.41.0
     - package: xpkg.upbound.io/upbound/provider-helm:v0.20.0
 
 configuration:
