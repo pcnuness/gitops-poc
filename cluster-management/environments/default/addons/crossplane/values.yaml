@@ -36,7 +36,7 @@ metrics:
 # Pacotes a serem instalados automaticamente
 provider:
   packages:
-    - package: xpkg.upbound.io/upbound/provider-aws:v1.4.0
+    - package: xpkg.upbound.io/upbound/provider-family-aws:v0.41.0
       runtimeConfigRef:
         name: aws-runtime-config
     - package: xpkg.upbound.io/upbound/provider-helm:v0.20.0
