@@ -61,3 +61,17 @@ export AWS_ACCESS_KEY_ID="AKIA"
 export AWS_SECRET_ACCESS_KEY="5YV"
 
 kubectl config use-context kind-argocd-main
+
+
+
+argocd cluster add arn:aws:eks:us-east-1:590184126528:cluster/gitops-management-services \
+  --name gitops-develop \
+  --label enable_crossplane=true \
+  --label environment=develop \
+  --annotation addons_repo_basepath=cluster-management/ \
+  --annotation addons_repo_revision=develop \
+  --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc \
+  --annotation aws_cluster_name=gitops-develop \
+  --annotation crossplane_iam_role_arn=arn:aws:iam::590184126528:role/gitops-management-services-aws-load-balancer-controller-irsa \
+  --annotation crossplane_service_account=default \
+  --annotation aws_vpc_id=vpc-00a842400d3bcdf98
