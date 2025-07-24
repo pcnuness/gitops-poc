@@ -36,9 +36,8 @@ metrics:
 # Pacotes a serem instalados automaticamente
 provider:
   packages:
-    - package: xpkg.upbound.io/upbound/provider-family-aws:v0.41.0
-    - package: xpkg.upbound.io/upbound/provider-aws-s3:v0.41.0
-    - package: xpkg.upbound.io/upbound/provider-helm:v0.20.0
+    - package: xpkg.crossplane.io/crossplane-contrib/provider-aws-s3:v1.21.1
+    - package: xpkg.crossplane.io/crossplane-contrib/provider-family-aws:v1.21.1
 
 configuration:
   packages:
