@@ -1,5 +1,5 @@
 # Quantidade de réplicas do pod Crossplane
-replicas: 2
+replicas: 1
 resourcesCrossplane:
   limits:
     cpu: "100m"
