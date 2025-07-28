@@ -1,0 +1,58 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: appset-iac-aws-services
+  namespace: argocd
+  annotations:
+    gitops.plataform/area: cloud
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: false
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/pcnuness/gitops-poc.git
+              revision: develop
+              files:
+                - path: "cluster-management/environment/*/iac/*/*/values.yaml"
+              values:
+                environment: "{{path[1]}}"
+                svc_name: "{{path[3]}}"
+                app_name: "{{path[4]}}"
+          - clusters:
+              selector:
+                matchExpressions:
+                  - key: environment
+                    operator: In
+                    values: ["{{values.environment}}"]
+  template:
+    metadata:
+      name: "iac-aws-{{values.svc_name}}-{{values.app_name}}-{{values.environment}}-{{name}}"
+      labels:
+        gitops.plataform/environment: '{{values.environment}}'
+        gitops.plataform/src: '{{values.svc_name}}'
+        gitops.plataform/app: '{{values.app_name}}'
+        gitops.plataform/cluster: '{{name}}'
+    spec:
+      project: cluster-management
+      source:
+        repoURL: '{{metadata.annotations.addons_repo_url}}'
+        targetRevision: '{{metadata.annotations.addons_repo_revision}}'
+        path: '{{metadata.annotations.addons_repo_basepath}}environments/{{values.environment}}/iac/{{values.svc_name}}/{{values.app_name}}'
+      destination:
+        name: '{{name}}'
+        namespace: iac-aws-{{values.svc_name}}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+        syncOptions:
+          - CreateNamespace=true
