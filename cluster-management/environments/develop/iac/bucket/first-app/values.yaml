@@ -4,6 +4,10 @@ kind: Bucket
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "3"
+    gitops.plataform/environment: "develop"
+    gitops.plataform/src: "bucket"
+    gitops.plataform/app: "frist-app"
+    gitops.plataform/cluster: "gitops-develop"
   name: 590184126528-crossplane-bucket
   namespace: iac-bucket
 spec:

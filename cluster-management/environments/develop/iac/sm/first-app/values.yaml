@@ -1,0 +1,17 @@
+---
+apiVersion: s3.aws.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    gitops.plataform/environment: "develop"
+    gitops.plataform/src: "bucket"
+    gitops.plataform/app: "second-app"
+    gitops.plataform/cluster: "gitops-develop"
+  name: 590184126528-crossplane-bucket-second
+  namespace: iac-bucket
+spec:
+  providerConfigRef:
+    name: default
+  forProvider:
+    region: us-east-1
