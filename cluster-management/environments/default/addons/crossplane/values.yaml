@@ -3,25 +3,36 @@ image:
   pullPolicy: Always
 
 # Quantidade de réplicas do pod Crossplane
-#replicas: 1
-#resourcesCrossplane:
-#  limits:
-#    cpu: "100m"
-#    memory: "512Mi"
-#  requests:
-#    cpu: "100m"
-#    memory: "256Mi"
-#
-#rbacManager:
-#  replicas: 2
-#resourcesRBACManager:
-#  limits:
-#    cpu: "200m"
-#    memory: "512Mi"
-#  requests:
-#    cpu: "200m"
-#    memory: "256Mi"
-#
+replicas: 2
+resourcesCrossplane:
+  limits:
+    cpu: "100m"
+    memory: "512Mi"
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+
+rbacManager:
+  replicas: 2
+resourcesRBACManager:
+  limits:
+    cpu: "200m"
+    memory: "512Mi"
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+
+provider:
+  packages:
+    - xpkg.upbound.io/upbound/provider-aws-s3:v1.23.1
+args:
+  - "--registry=registry.upbound.io"
+  - "--enable-realtime-compositions"
+  - "--enable-deployment-runtime-configs"
+  - "--enable-composition-webhook-schema-validation"
+logLevel: debug
+podLabels:
+  app.kubernetes.io/managed-by: "gitops.plataform.com"
 ## Desativa webhooks (útil em clusters restritos)
 #webhooks:
 #  enabled: true
@@ -29,27 +40,10 @@ image:
 #metrics:
 #  enabled: false
 # Pacotes a serem instalados automaticamente
-provider:
-  packages:
-    - xpkg.upbound.io/upbound/provider-aws-s3:v1.23.1
 
 #configuration:
 #  packages:
 #    - xpkg.upbound.io/upbound/platform-ref-aws:v1.4.0
-
-# Argumentos extras para o Crossplane Controller
-args:
-  - "--registry=registry.upbound.io"
-  - "--enable-realtime-compositions"
-  - "--enable-deployment-runtime-configs"
-  - "--enable-composition-webhook-schema-validation"
-
-# Ativa logs em nível info
-logLevel: debug
-
-# Labels adicionais (se quiser controlar por GitOps, por ex.)
-podLabels:
-  app.kubernetes.io/managed-by: "helm"
 
 # Affinity, tolerations e outros ajustes podem ser ativados se necessário
 # affinity: {}
