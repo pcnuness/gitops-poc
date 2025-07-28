@@ -18,6 +18,10 @@ metadata:
   name: default
   annotations:
     argocd.argoproj.io/sync-wave: "2"
+    gitops.plataform/environment: "develop"
+    gitops.plataform/src: "aws-provider-default"
+    gitops.plataform/app: "provider"
+    gitops.plataform/cluster: "gitops-develop"
 spec:
   credentials:
     source: WebIdentity
