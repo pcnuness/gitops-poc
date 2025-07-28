@@ -3,12 +3,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bootstrap-gitops-app-iac-bucket
+  name: bootstrap-gitops-app-iac-aws
   namespace: argocd
   annotations:
     gitops.plataform/area: devops
     gitops.plataform/service: gitops
-    gitops.plataform/managed-by: teamplataform
+    gitops.plataform/managed-by: team-plataform
 spec:
   project: default
   source:
