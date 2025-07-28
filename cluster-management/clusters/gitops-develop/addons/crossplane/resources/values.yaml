@@ -21,7 +21,7 @@ spec:
     source: Upbound
     upbound:
       webIdentity:
-        roleARN: <roleARN-for-provider-identity>
+        roleARN: arn:aws:iam::992382694862:role/gitops-management-services-crossplane-irsa
 ---
 apiVersion: s3.aws.upbound.io/v1beta1
 kind: Bucket
