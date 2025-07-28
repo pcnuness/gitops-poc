@@ -12,3 +12,14 @@
 #      namespace: crossplane-system
 #      name: aws-creds-crossplane
 #      key: credentials
+apiVersion: aws.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  credentials:
+    source: WebIdentity
+    webIdentity:
+      roleARN: "arn:aws:iam::992382694862:role/gitops-management-services-crossplane-irsa"
