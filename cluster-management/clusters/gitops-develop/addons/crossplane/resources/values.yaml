@@ -22,4 +22,4 @@ spec:
   credentials:
     source: WebIdentity
     webIdentity:
-      roleARN: "arn:aws:iam::992382694862:role/gitops-management-services-crossplane-irsa"
+      roleARN: "arn:aws:iam::533267095186:role/gitops-management-services-crossplane-irsa"
