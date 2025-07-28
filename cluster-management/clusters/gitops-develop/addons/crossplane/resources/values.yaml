@@ -23,16 +23,3 @@ spec:
     source: WebIdentity
     webIdentity:
       roleARN: "arn:aws:iam::992382694862:role/gitops-management-services-crossplane-irsa"
----
-apiVersion: s3.aws.upbound.io/v1beta1
-kind: Bucket
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-  name: 590184126528-crossplane-bucket
-  namespace: iac-bucket
-spec:
-  providerConfigRef:
-    name: default
-  forProvider:
-    region: us-east-1
