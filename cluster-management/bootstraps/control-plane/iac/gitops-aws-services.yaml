@@ -16,7 +16,7 @@ spec:
               repoURL: https://github.com/pcnuness/gitops-poc.git
               revision: develop
               files:
-                - path: "cluster-management/environment/*/iac/*/*/values.yaml"
+                - path: "cluster-management/environments/*/iac/*/*/values.yaml"
               values:
                 environment: "{{path[2]}}"
                 svc_name: "{{path[4]}}"
