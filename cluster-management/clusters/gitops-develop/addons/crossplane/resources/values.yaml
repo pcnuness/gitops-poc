@@ -16,18 +16,19 @@ apiVersion: aws.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   credentials:
-    source: Upbound
-    upbound:
-      webIdentity:
-        roleARN: arn:aws:iam::992382694862:role/gitops-management-services-crossplane-irsa
+    source: WebIdentity
+    webIdentity:
+      roleARN: "arn:aws:iam::992382694862:role/gitops-management-services-crossplane-irsa"
 ---
 apiVersion: s3.aws.upbound.io/v1beta1
 kind: Bucket
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   name: 590184126528-crossplane-bucket
   namespace: iac-bucket
 spec:
