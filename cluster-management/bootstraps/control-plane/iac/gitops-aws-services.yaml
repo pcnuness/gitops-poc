@@ -24,6 +24,9 @@ spec:
           - clusters:
               selector:
                 matchExpressions:
+                  - key: enable_aws_services
+                    operator: In
+                    values: ['true']
                   - key: environment
                     operator: In
                     values: ["{{values.environment}}"]
