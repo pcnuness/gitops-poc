@@ -7,7 +7,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
     gitops.plataform/environment: "develop"
     gitops.plataform/src: "secretsmanager"
-    gitops.plataform/app: "first-app"
+    gitops.plataform/app: "app-xptox"
     gitops.plataform/cluster: "gitops-develop"
   labels:
     testing.upbound.io/example-name: secretsmanager
