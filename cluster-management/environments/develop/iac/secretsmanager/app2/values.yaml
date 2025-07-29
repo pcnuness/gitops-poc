@@ -11,10 +11,13 @@ metadata:
     gitops.plataform/cluster: "gitops-develop"
   labels:
     testing.upbound.io/example-name: secretsmanager
-  name: example-first-app
+  name: example-app2
 spec:
   forProvider:
     name: example-random
     description: "Secret envelope managed by Crossplane, content managed externally"
     recoveryWindowInDays: 0
     region: us-east-1
+    stringData:
+      username: "user_tapp2"
+      password: "very_secret_password_123"
