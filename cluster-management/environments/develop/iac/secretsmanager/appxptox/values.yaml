@@ -4,9 +4,9 @@ kind: Secret
 metadata:
   annotations:
     meta.upbound.io/example-id: secretsmanager/v1beta1/secret
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "1"
     gitops.plataform/environment: "develop"
-    gitops.plataform/src: "secrets-manager"
+    gitops.plataform/src: "secretsmanager"
     gitops.plataform/app: "first-app"
     gitops.plataform/cluster: "gitops-develop"
   labels:
