@@ -62,7 +62,7 @@ spec:
               provider:
                 package:
                   registry: xpkg.upbound.io/upbound
-                  version: v1.1.0
+                  version: v1.23.1
               providers:
               - s3
               - secretsmanager
