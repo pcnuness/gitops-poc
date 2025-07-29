@@ -40,23 +40,25 @@ argocd cluster add arn:aws:eks:us-east-1:590183702475:cluster/eks-infa-ops-servi
   --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc.git
 ```
 
-argocd cluster add arn:aws:eks:us-east-1:381491847637:cluster/gitops-management-services \
+argocd cluster add arn:aws:eks:us-east-1:533267095186:cluster/gitops-management-services \
   --name gitops-develop \
   --label enable_crossplane=true \
+  --label enable_aws_services=true \
+  --label enable_aws_crossplane_upbound_provider=true \
   --label environment=develop \
   --annotation addons_repo_basepath=cluster-management/ \
   --annotation addons_repo_revision=develop \
   --annotation addons_repo_url=https://github.com/pcnuness/gitops-poc \
   --annotation aws_cluster_name=gitops-develop \
-  --annotation crossplane_iam_role_arn=arn:aws:iam::381491847637:role/gitops-management-services-crossplane-irsa \
+  --annotation crossplane_iam_role_arn=arn:aws:iam::533267095186:role/gitops-management-services-crossplane-irsa \
   --annotation crossplane_service_account=default 
 
 wakrUkb9ZWxXzWlo
 
 # Commands
 
-export AWS_ACCESS_KEY_ID="AK"          
-export AWS_SECRET_ACCESS_KEY="eD09B"
+export AWS_ACCESS_KEY_ID="AKI"          
+export AWS_SECRET_ACCESS_KEY="LKI"
 
 kubectl config use-context kind-argocd-main
 
