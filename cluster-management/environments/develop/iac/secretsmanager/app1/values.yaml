@@ -16,7 +16,7 @@ spec:
   forProvider:
     name: example-app1
     description: "Secret envelope managed by Crossplane, content managed externally"
-    recoveryWindowInDays: 0
+    recoveryWindowInDays: 5
     region: us-east-1
     stringData:
       username: "user_tapp1"
