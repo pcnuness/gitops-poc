@@ -6,6 +6,10 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
+    gitops.plataform/area: cloud
+    gitops.plataform/service: iac
+    gitops.plataform/component: crossplane
+    gitops.plataform/managed-by: plataform-team
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: false
