@@ -18,6 +18,3 @@ spec:
     description: "Secret envelope managed by Crossplane, content managed externally"
     recoveryWindowInDays: 5
     region: us-east-1
-    stringData:
-      username: "user_tapp1"
-      password: "very_secret_password_123"
