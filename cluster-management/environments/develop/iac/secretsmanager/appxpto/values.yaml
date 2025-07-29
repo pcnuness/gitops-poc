@@ -16,5 +16,10 @@ spec:
   forProvider:
     name: example-appxpto
     description: "Secret envelope managed by Crossplane, content managed externally"
-    recoveryWindowInDays: 5
+    recoveryWindowInDays: 7
     region: us-east-1
+    tags:
+      gitops.plataform/environment: "develop"
+      gitops.plataform/src: "secretsmanager"
+      gitops.plataform/app: "app-xpto"
+      gitops.plataform/cluster: "gitops-develop"
