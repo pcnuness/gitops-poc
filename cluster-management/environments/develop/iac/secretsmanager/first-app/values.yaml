@@ -15,5 +15,6 @@ metadata:
 spec:
   forProvider:
     name: example-random
+    description: "Secret envelope managed by Crossplane, content managed externally"
     recoveryWindowInDays: 0
     region: us-east-1
